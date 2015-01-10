@@ -5,7 +5,17 @@
     %link{:rel => "stylesheet", :href => "css/styles.css"}
     %link{:rel => "stylesheet", :href => "http://fonts.googleapis.com/css?family=Raleway"}
     %script{src: "https://code.jquery.com/jquery-2.1.3.js"}
+    %script{src: "scripts/polyfill-object-assign.js"}
+    %script{src: "scripts/polyfill-array-find.js"}
+    %script{src: "scripts/helpers.js"}
+    %script{src: "scripts/flickr-helpers.js"}
 
   %body
     %h1 hello, nice there
     %h2 hey?
+
+    .output Output goes here
+
+    %img.main-image
+
+    %script{src: "scripts/main.js"}
