@@ -45,6 +45,13 @@ var FlickrHelpers = (function () {
       ));
     },
 
+    getGallery: function (galleryId) {
+      return doRequest(requestParams(
+        "flickr.galleries.getPhotos",
+        { gallery_id: galleryId, extras: 'owner_name,url,url_m' }
+      ));
+    },
+
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
       this.getPhotoUrls(photoId).success(function (urlInfo) {
         errorHandler = errorHandler || defaultErrorHandler;
@@ -57,7 +64,6 @@ var FlickrHelpers = (function () {
           return;
         }
 
-        console.log("Urls: ", urlInfo);
         var desiredSize = "Medium"
         var desiredSizeInfo = urlInfo.sizes.size.find(
           function (sizeInfo) { return sizeInfo.label === desiredSize }
@@ -76,7 +82,6 @@ var FlickrHelpers = (function () {
     loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {
       errorHandler = errorHandler || defaultErrorHandler;
       this.getPhotoMetadata(photoId).success(function(metadata) {
-        console.log(metadata);
         KittyHelpers.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
         KittyHelpers.setText(titleSelector, metadata.photo.title._content || "Untitled");
         KittyHelpers.setLink(linkSelector, (metadata.photo.urls.url[0]._content));

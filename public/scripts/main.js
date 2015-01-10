@@ -29,11 +29,8 @@ var loadAndShowPhotos = function (photos) {
 };
 
 var initializeViewer = function () {
-  //FlickrHelpers.loadAndShowImage(8560841233, '.main-image');
-  //FlickrHelpers.loadAndShowMetadata(8560841233, '.ImageInfo-owner', '.ImageInfo-title', '.ImageInfo-url');
-  FlickrHelpers.getPhotoset("72157645734482608").success(function (data) {
-    console.log("got data: ", data);
-    loadAndShowPhotos(data.photoset.photo);
+  FlickrHelpers.getGallery("11968896-72157622466344583").success(function (data) {
+    loadAndShowPhotos(data.photos.photo);
   });
 };
 
