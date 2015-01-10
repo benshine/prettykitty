@@ -10,11 +10,14 @@ var loadAndShowPhotos = function (photos) {
 
   photos.forEach(function (photo) {
     // Make an element for the photo and start loading it
-    var element = "<li data-photo-id='" + photo.id + "' class='ImageContainer'>" +
-        "<div class='Image-title'>" + photo.title + "</div>" +
-        "<div class='Image-owner'>" + photo.ownername + "</div>" +
-        "<a class='Image-link' target='_blank'> (more info)</a>" +
+    var element =
+      "<li data-photo-id='" + photo.id + "' class='ImageContainer'>" +
         "<img src='" + photo.url_m + "'>" +
+          "<div class='Image-metadata'>" +
+            "<div class='Image-title'>" + photo.title + "</div>" +
+            "<div class='Image-owner'>" + photo.ownername + "</div>" +
+            "<a class='Image-link' target='_blank'> (more info)</a>" +
+          "</div>" +
         "</li>";
     KittyHelpers.appendTo('.Images', element);
 

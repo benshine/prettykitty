@@ -11,15 +11,22 @@
     %script{src: "scripts/flickr-helpers.js"}
 
   %body
-    %h1 Hello, pretty kitty
 
-    .ImageViewer{ style: "display: none" }
-      %img.main-image
-      .ImageInfo
-        .ImageInfo-owner (loading owner)
-        %a.ImageInfo-url{ target: '_blank' }
-          %span.ImageInfo-title (loading title)
+    .container
+      %h1 Hello, pretty kitty
+      %h2 A cat pictures slideshow viewer and javascript exercise
+      %a{href: "https://github.com/benshine/prettykitty"} by Benji Shine
 
-    %ul.Images
+
+      .ImageViewer{ style: "display: none" }
+        %img.main-image
+        .ImageInfo
+          .ImageInfo-owner (loading owner)
+          %a.ImageInfo-url{ target: '_blank' }
+            %span.ImageInfo-title (loading title)
+
+      %ul.Images
+
+
 
     %script{src: "scripts/main.js"}
