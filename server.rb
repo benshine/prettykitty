@@ -1,5 +1,6 @@
 require 'sinatra'
+require 'haml'
 
 get '/' do
-  "Hello, nice cat!"
+  haml :kitties
 end
