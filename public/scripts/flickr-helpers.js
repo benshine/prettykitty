@@ -38,6 +38,13 @@ var FlickrHelpers = (function () {
       ));
     },
 
+    getPhotoset: function (setId) {
+      return doRequest(requestParams(
+        "flickr.photosets.getPhotos",
+        { photoset_id: setId, extras: 'owner_name,url,url_m' }
+      ));
+    },
+
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
       this.getPhotoUrls(photoId).success(function (urlInfo) {
         errorHandler = errorHandler || defaultErrorHandler;

@@ -13,12 +13,13 @@
   %body
     %h1 Hello, pretty kitty
 
-    .ImageViewer
+    .ImageViewer{ style: "display: none" }
       %img.main-image
       .ImageInfo
         .ImageInfo-owner (loading owner)
         %a.ImageInfo-url{ target: '_blank' }
           %span.ImageInfo-title (loading title)
 
+    %ul.Images
 
     %script{src: "scripts/main.js"}

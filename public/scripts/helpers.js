@@ -24,3 +24,7 @@ KittyHelpers.setLink = function (selector, value) {
 KittyHelpers.setImage = function (selector, value) {
   return $(selector).attr('src', value);
 };
+
+KittyHelpers.appendTo = function (selector, elements) {
+  return $(selector).append(elements);
+};
