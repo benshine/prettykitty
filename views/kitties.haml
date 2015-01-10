@@ -11,11 +11,14 @@
     %script{src: "scripts/flickr-helpers.js"}
 
   %body
-    %h1 hello, nice there
-    %h2 hey?
+    %h1 Hello, pretty kitty
 
-    .output Output goes here
+    .ImageViewer
+      %img.main-image
+      .ImageInfo
+        .ImageInfo-owner (loading owner)
+        %a.ImageInfo-url{ target: '_blank' }
+          %span.ImageInfo-title (loading title)
 
-    %img.main-image
 
     %script{src: "scripts/main.js"}

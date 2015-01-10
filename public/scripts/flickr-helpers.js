@@ -19,8 +19,8 @@ var FlickrHelpers = (function () {
     return KittyHelpers.get(url)
   };
 
-  var defaultErrorHandler = function () {
-    console.error("Oh noes, got an error", something);
+  var defaultErrorHandler = function (message) {
+    console.error("Oh noes, got an error", message);
   };
 
   return {
@@ -31,12 +31,25 @@ var FlickrHelpers = (function () {
       ));
     },
 
+    getPhotoMetadata: function (photoId) {
+      return doRequest(requestParams(
+        "flickr.photos.getInfo",
+        { photo_id: photoId }
+      ));
+    },
+
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
       this.getPhotoUrls(photoId).success(function (urlInfo) {
+        errorHandler = errorHandler || defaultErrorHandler;
+
+        // TODO: accept different size parameters
         var imageUrl;
 
-        // TODO: error handling
-        // TODO: accept different size parameters
+        if (urlInfo.stat !== "ok") {
+          errorHandler("Could not load photo urls: " + urlInfo.message);
+          return;
+        }
+
         console.log("Urls: ", urlInfo);
         var desiredSize = "Medium"
         var desiredSizeInfo = urlInfo.sizes.size.find(
@@ -50,7 +63,19 @@ var FlickrHelpers = (function () {
         }
 
         $(imageElementSelector).attr('src', imageUrl);
-      }).fail(errorHandler || defaultErrorHandler);
+      }).fail(errorHandler);
+    },
+
+    loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {
+      errorHandler = errorHandler || defaultErrorHandler;
+      this.getPhotoMetadata(photoId).success(function(metadata) {
+        console.log(metadata);
+        $(ownerSelector).text(metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
+        $(titleSelector).text(metadata.photo.title._content || "Untitled");
+        $(linkSelector).attr('href', (metadata.photo.urls.url[0]._content));
+      }).fail(errorHandler);
+
+
     }
   };
 
