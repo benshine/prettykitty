@@ -70,12 +70,10 @@ var FlickrHelpers = (function () {
       errorHandler = errorHandler || defaultErrorHandler;
       this.getPhotoMetadata(photoId).success(function(metadata) {
         console.log(metadata);
-        $(ownerSelector).text(metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
-        $(titleSelector).text(metadata.photo.title._content || "Untitled");
-        $(linkSelector).attr('href', (metadata.photo.urls.url[0]._content));
+        KittyHelpers.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
+        KittyHelpers.setText(titleSelector, metadata.photo.title._content || "Untitled");
+        KittyHelpers.setLink(linkSelector, (metadata.photo.urls.url[0]._content));
       }).fail(errorHandler);
-
-
     }
   };
 

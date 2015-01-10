@@ -1,9 +1,4 @@
 
-var onPhotoDataLoaded = function (data) {
-  console.log(data);
-  $('.output').text(data.toString());
-};
-
 var errorHandler = function (message) {
   console.error("Oh noes, got an error", message);
 };
