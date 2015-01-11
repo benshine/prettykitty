@@ -15,6 +15,9 @@ var BJQ = (function () {
 
     // This is an incredibly simple get handler that is not meant to handle
     // all situations. Just enough for the current application.
+    //
+    // It does not handle invalid URLs.
+    // The only success it recognizes is http code 200.
     get: function (url, successHandler, errorHandler) {
       var XHR_COMPLETE = 4;
       var HTTP_RESPONSE_OK = 200;
@@ -22,9 +25,15 @@ var BJQ = (function () {
       var handleStateChange = function () {
         if (req.readyState === XHR_COMPLETE) {
           if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
-            successHandler(req.responseText); // TODO: pas paramenters!
+            console.log("success...", req);
+            if (successHandler) {
+              successHandler(req.responseText);
+            }
           } else {
-            errorHandler(req);
+            console.log("error...", req);
+            if (errorHandler) {
+              errorHandler(req);
+            }
           }
         }
       };
@@ -33,7 +42,6 @@ var BJQ = (function () {
       req.onreadystatechange = handleStateChange;
       req.open('GET', url);
       req.send();
-
 
       // return $.get.call($, url).success(success).fail(error);
 

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var json = JSON.parse(data);
     console.log("success got data", json, " with arguments ", arguments);
     $('#log').append($("<h2>").addClass("success").text("success!"));
-    $('#log').append($("<div>").addClass("success").text(JSON.stringify(data)));
+    $('#log').append($("<div>").addClass("success").text(JSON.stringify(json)));
   };
 
   var errorHandler = function (data) {
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
   console.log("Requestng exxpects success: ", testUrl);
   BJQ.get(testUrl, successHandler, errorHandler);
 
-  console.log("Requestng exxpects failure: ", notFound);
-  BJQ.get(notFound, successHandler, errorHandler);
+  //console.log("Requestng exxpects failure: ", notFound);
+  //BJQ.get(notFound, successHandler, errorHandler);
 
   // Temporarily turn off lightbox stuff so I can focus on getting my $.get replacement
   // working!
