@@ -1,8 +1,6 @@
 'use strict';
 
 document.addEventListener("DOMContentLoaded", function() {
-
-
   var testOuptutSelector = '[data-test-name=ChainableGet]';
   var MAX_TEST_DURATION = 2000; // milliseconds
 
@@ -39,11 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
   doTest("testSuccessFlow", function () {
+    // This tests both .success and .then
     var expectationsMet = [ false, false ];
-    var completed = false;
     var checkForSuccess = function () {
       if (expectationsMet[0] && expectationsMet[1]) {
-        completed = true;
         handleTestPassed("testSuccessFlow");
       }
     };
@@ -64,20 +61,37 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         function () {
           handleTestFailed("testSuccessFlow", "unexpected reject handler called");
-          completed = true;
         }
     ).fail(
       function () {
         handleTestFailed("testSuccessFlow", "unexpected fail handler called");
-        completed = true;
       }
     );
+  });
 
-    setTimeout(function () {
-      if (!completed) {
-        handleTestFailed("testSuccessFlow", "test did not complete before timeout");
+  doTest("testMultipleSuccesses", function () {
+    var expectationsMet = [ false, false, false ];
+    var checkForSuccess = function () {
+      if (expectationsMet[0] && expectationsMet[1] && expectationsMet[2]) {
+        handleTestPassed("testMultipleSuccesses");
       }
-    }, MAX_TEST_DURATION );
+    };
+
+    var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
+
+    var promise = new ChainableGet().get(testUrl)
+      .success(function () {
+        expectationsMet[0] = true;
+        checkForSuccess();
+      })
+      .success(function () {
+        expectationsMet[1] = true;
+        checkForSuccess();
+      })
+      .success(function () {
+        expectationsMet[2] = true;
+        checkForSuccess();
+      })
   });
 
 
