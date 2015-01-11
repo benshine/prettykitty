@@ -15,7 +15,7 @@ var FlickrHelpers = (function () {
   };
 
   var doRequest = function (params) {
-    var url = api_base + KittyHelpers.encodeUrlParams(params)
+    var url = api_base + KittyHelpers.encodeUrlParams(params);
     return KittyHelpers.get(url)
   };
 
