@@ -16,11 +16,17 @@ document.addEventListener("DOMContentLoaded", function() {
   var handleTestPassed = function (testName) {
     passes.push(testName);
     logToPage("success", testName + " passed.");
+    if (allTestsCompleted()) {
+      logToPage("info", "All tests completed");
+    }
   };
 
   var handleTestFailed = function (testName, message) {
     failures.push(testName);
     logToPage("error", testName + " failed: " + message);
+    if (allTestsCompleted()) {
+      logToPage("info", "All tests completed");
+    }
   };
 
   var doTest = function (testName, testFunc) {
