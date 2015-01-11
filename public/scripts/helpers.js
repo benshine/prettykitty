@@ -13,16 +13,25 @@ KittyHelpers.encodeUrlParams =  function (params) {
     .join('&')
 };
 
+KittyHelpers.getBySelector= function (selector) {
+  var element = document.querySelector(selector);
+  if (element) {
+    return element;
+  } else {
+    throw new Error("Could not find element with selector '" + selector + "`");
+  }
+};
+
 KittyHelpers.setText = function (selector, value) {
-  return $(selector).text(value);
+  KittyHelpers.getBySelector(selector).innerHTML = value;
 };
 
 KittyHelpers.setLink = function (selector, value) {
-  return $(selector).attr('href', value);
+  return KittyHelpers.getBySelector(selector).setAttribute('href', value);
 };
 
 KittyHelpers.setImage = function (selector, value) {
-  return $(selector).attr('src', value);
+  return KittyHelpers.getBySelector(selector).setAttribute('src', value);
 };
 
 KittyHelpers.appendTo = function (selector, elements) {
