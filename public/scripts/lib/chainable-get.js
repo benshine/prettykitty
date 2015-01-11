@@ -9,14 +9,12 @@ function ChainableGet() {
   var failFunctions = [];
 
   this.successHandler = function (data) {
-    console.log("Success handler for ", this.url);
     successFunctions.forEach(function (successFunc) {
       successFunc(data);
     });
   };
 
   this.errorHandler = function (data) {
-    console.log("Error handler for ", this.url);
     failFunctions.forEach(function (failFunc) {
       failFunc(data);
     });
