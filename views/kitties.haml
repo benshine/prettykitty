@@ -17,15 +17,17 @@
       %h2 A cat pictures slideshow viewer and javascript exercise
       %a{href: "https://github.com/benshine/prettykitty"} by Benji Shine
 
+      .LoadingIndicator Loading...
 
-      .ImageViewer{ style: "display: none" }
-        %img.main-image
+
+      .LightBox{ style: "display: none" }
+        %img.LightBox-mainImage
         .ImageInfo
           .ImageInfo-owner (loading owner)
           %a.ImageInfo-url{ target: '_blank' }
             %span.ImageInfo-title (loading title)
 
-      %ul.Images
+      %ul.Thumbnails
 
 
 

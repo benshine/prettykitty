@@ -7,11 +7,29 @@ body {
   margin: 0 auto;
 }
 
-.Images {
+.LightBox {
+  margin: 0 auto;
+  width: 900px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.LightBox-mainImage {
+  width: 900px; // but this isn't great because we don't know the images actual width
+  margin: 0 auto;
+}
+
+.Thumbnails {
   list-style: none
 }
 
-.Images .ImageContainer {
-  margin: 20px;
+.Thumbnails .Thumbnail {
+  margin: 10px;
+  display: inline-block;
 }
 
+.Thumbnails .Image-title,
+.Thumbnails .Image-owner,
+.Thumbnails .Image-link {
+  display: none;
+}

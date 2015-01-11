@@ -48,12 +48,12 @@ var FlickrHelpers = (function () {
     getGallery: function (galleryId) {
       return doRequest(requestParams(
         "flickr.galleries.getPhotos",
-        { gallery_id: galleryId, extras: 'owner_name,url,url_m' }
+        { gallery_id: galleryId, extras: 'owner_name,url,url_m,url_q' }
       ));
     },
 
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
-      this.getPhotoUrls(photoId).success(function (urlInfo) {
+      return this.getPhotoUrls(photoId).success(function (urlInfo) {
         errorHandler = errorHandler || defaultErrorHandler;
 
         // TODO: accept different size parameters
