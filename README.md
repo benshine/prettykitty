@@ -9,6 +9,17 @@ First I'm building it with a few jquery calls, but wrapping all jquery calls in 
 object. The only jquery call left is $.get and calls to success/error callbacks
 on the jqXHR it returns.
 
+### Ingredients
+
+- sinatra
+- haml
+- ruby 2.1.5
+
+### To run:
+    bundle install
+    foreman start
+    open http://localhost:5000
+
 ### Stuff I'd like to do to consider this complete:
 
 - write my own version of $.get
