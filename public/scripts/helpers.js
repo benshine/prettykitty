@@ -33,15 +33,3 @@ KittyHelpers.setLink = function (selector, value) {
 KittyHelpers.setImage = function (selector, value) {
   return KittyHelpers.getBySelector(selector).setAttribute('src', value);
 };
-
-KittyHelpers.appendTo = function (selector, elements) {
-  return $(selector).append(elements);
-};
-
-KittyHelpers.show = function (selector) {
-  return $(selector).show();
-};
-
-KittyHelpers.hide = function (selector) {
-  return $(selector).hide();
-};
