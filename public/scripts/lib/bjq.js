@@ -12,8 +12,33 @@
 
 var BJQ = (function () {
   return {
-    get: function (url) {
-      return $.get.call($, url)
+
+    // This is an incredibly simple get handler that is not meant to handle
+    // all situations. Just enough for the current application.
+    get: function (url, successHandler, errorHandler) {
+      var XHR_COMPLETE = 4;
+      var HTTP_RESPONSE_OK = 200;
+
+      var handleStateChange = function () {
+        if (req.readyState === XHR_COMPLETE) {
+          if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
+            successHandler(req.responseText); // TODO: pas paramenters!
+          } else {
+            errorHandler(req);
+          }
+        }
+      };
+
+      req = new XMLHttpRequest();
+      req.onreadystatechange = handleStateChange;
+      req.open('GET', url);
+      req.send();
+
+
+      // return $.get.call($, url).success(success).fail(error);
+
+
+
     },
 
     encodeUrlParams:   function (params) {
