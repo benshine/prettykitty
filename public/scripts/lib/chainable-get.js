@@ -1,20 +1,23 @@
+'use strict';
+
 function ChainableGet() {
+
   var XHR_COMPLETE = 4;
   var HTTP_RESPONSE_OK = 200;
 
-  this.successFunctions = [];
-  this.failFunctions = [];
+  var successFunctions = [];
+  var failFunctions = [];
 
   this.successHandler = function (data) {
     console.log("Success handler for ", this.url);
-    this.successFunctions.forEach(function (successFunc) {
+    successFunctions.forEach(function (successFunc) {
       successFunc(data);
     })
   };
 
   this.errorHandler = function (data) {
     console.log("Error handler for ", this.url);
-    this.failFunctions.forEach(function (failFunc) {
+    failFunctions.forEach(function (failFunc) {
       failFunc(data);
     });
   };
@@ -23,6 +26,8 @@ function ChainableGet() {
     this.url = url;
 
     this.promise = new Promise(function (resolve, reject) {
+      var req;
+
       var handleStateChange = function () {
         if (req.readyState === XHR_COMPLETE) {
           if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
@@ -51,12 +56,12 @@ function ChainableGet() {
   };
 
   this.success = function (fn) {
-    this.successFunctions.push(fn);
+    successFunctions.push(fn);
     return this;
   };
 
   this.fail = function (fn) {
-    this.failFunctions.push(fn);
+    failFunctions.push(fn);
     return this;
   };
 

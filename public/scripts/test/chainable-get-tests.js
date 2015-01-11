@@ -1,3 +1,5 @@
+'use strict';
+
 document.addEventListener("DOMContentLoaded", function() {
 
 
@@ -9,11 +11,12 @@ document.addEventListener("DOMContentLoaded", function() {
   var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
   var notFound = "http://prettykitty.herokuapp.com/000";
 
-  var logToPage = function (cssClass, msg ) {
+  var logToPage = function (cssClass, msg) {
     $(testOuptutSelector + ' .log').append($("<h2>").addClass(cssClass).text(msg));
   };
 
   var failures = [];
+  var passes = [];
 
   var failTest = function (testName, message) {
     failures.push({
@@ -22,6 +25,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     logToPage("error", "Failed test " + testName + ": " + message);
+  };
+
+  var testPassed = function (testName) {
+    passes.push(testName);
+    logToPage("success", testName + " passed.");
   };
 
   var successHandler = function (data) {
@@ -40,11 +48,11 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("testNiceGet");
     var p1 = new ChainableGet().get(testUrl);
 
-    p1.success( successHandler)
+    p1.success( successHandler )
       .then(
       function (data) { console.log("ooh it's my SECOND success handler"); },
       function (reason) {
-        failTest(testName, "got unexxpected reject  handler called");
+        failTest(testName, "unexpected reject  handler called");
         console.error("why do i need a reject handler? ", reason);
       }
     );
@@ -56,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
   var testErrorHandling = function () {
-    console.log("Requestng exxpects failure: ", notFound);
+    console.log("testErrorHandling: ", notFound);
     var p2 = new ChainableGet().get(notFound);
 
     //.fail(function (reason) {
