@@ -64,8 +64,7 @@ var FlickrHelpers = (function () {
           return;
         }
 
-        var desiredSize = "Medium";
-        console.log("Available sizes: ", urlInfo.sizes.size);
+        var desiredSize = "Medium"; // TODO: select size deliberately for lightbox dimensions
         var desiredSizeInfo = urlInfo.sizes.size.find(
           function (sizeInfo) { return sizeInfo.label === desiredSize }
         );
