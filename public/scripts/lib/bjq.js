@@ -22,31 +22,30 @@ var BJQ = (function () {
       var XHR_COMPLETE = 4;
       var HTTP_RESPONSE_OK = 200;
 
-      var handleStateChange = function () {
-        if (req.readyState === XHR_COMPLETE) {
-          if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
-            console.log("success...", req);
-            if (successHandler) {
-              successHandler(req.responseText);
-            }
-          } else {
-            console.log("error...", req);
-            if (errorHandler) {
-              errorHandler(req);
+      return new Promise (function (resolve, reject) {
+        var handleStateChange = function () {
+          if (req.readyState === XHR_COMPLETE) {
+            if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
+              console.log("success...", req);
+              if (successHandler) {
+                successHandler(req.responseText);
+              }
+              resolve(req.responseText);
+            } else {
+              console.log("error...", req);
+              if (errorHandler) {
+                errorHandler(req);
+              }
+              reject(req);
             }
           }
-        }
-      };
+        };
 
-      req = new XMLHttpRequest();
-      req.onreadystatechange = handleStateChange;
-      req.open('GET', url);
-      req.send();
-
-      // return $.get.call($, url).success(success).fail(error);
-
-
-
+        req = new XMLHttpRequest();
+        req.onreadystatechange = handleStateChange;
+        req.open('GET', url);
+        req.send();
+      });
     },
 
     encodeUrlParams:   function (params) {
