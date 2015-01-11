@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", function() {
   //p1.then(successHandler, errorHandler);
 
   console.log("Requestng exxpects failure: ", notFound);
-  var p2 = new ChainableGet().get(notFound)
-    .then(successHandler, errorHandler)
-    //.fail(function (reason) {
+  //var p2 = new ChainableGet().get(notFound)
+  //  .then(successHandler, errorHandler)
+  //  //.fail(function (reason) {
     //  console.log("My VERY OWN error handler!!! #1", reason);
     //})
     //.fail(function (reason) {
