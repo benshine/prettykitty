@@ -12,7 +12,7 @@ function ChainableGet() {
     console.log("Success handler for ", this.url);
     successFunctions.forEach(function (successFunc) {
       successFunc(data);
-    })
+    });
   };
 
   this.errorHandler = function (data) {
