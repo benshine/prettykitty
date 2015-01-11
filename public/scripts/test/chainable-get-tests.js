@@ -3,10 +3,8 @@
 document.addEventListener("DOMContentLoaded", function() {
 
 
-  // These tests are just for me to debug/develop with -- they don't actually
-  //  pass or fail in a meaningful way
-
   var testOuptutSelector = '[data-test-name=ChainableGet]';
+  var MAX_TEST_DURATION = 2000; // milliseconds
 
   var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
   var notFound = "http://prettykitty.herokuapp.com/000";
@@ -17,50 +15,62 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var failures = [];
   var passes = [];
+  var allTests = [];
 
-  var failTest = function (testName, message) {
-    failures.push({
-      testName: testName,
-      message: message
-    });
-
-    logToPage("error", "Failed test " + testName + ": " + message);
-  };
-
-  var testPassed = function (testName) {
+  var handleTestPassed = function (testName) {
     passes.push(testName);
     logToPage("success", testName + " passed.");
   };
 
-  var successHandler = function (data) {
-    var json = JSON.parse(data);
-    console.log("success got data", json, " with arguments ", arguments);
-    logToPage("success", "success!");
+  var handleTestFailed = function (testName, message) {
+    failures.push(testName);
+    logToPage("error", testName + " failed: " + message);
   };
 
-  var errorHandler = function (data) {
-    $(testOuptutSelector + ' .log').append($("<h2>").addClass("error").text("error!"));
-    console.log("error got data", data, " with arguments ", arguments);
+  var doTest = function (testName, testFunc) {
+    allTests.push(testName);
+    console.log("Running test: ", testName);
+    testFunc();
   };
 
-  var testNiceGet = function () {
-    var testName = "testNiceGet";
-    console.log("testNiceGet");
+  doTest("testSuccessFlow", function () {
+    var expectationsMet = [ false, false ];
+    var checkForSuccess = function () {
+      if (expectationsMet[0] && expectationsMet[1]) {
+        completed = true;
+        handleTestPassed("testSuccessFlow");
+      }
+    };
+    var completed = false;
+
     var p1 = new ChainableGet().get(testUrl);
 
-    p1.success( successHandler )
+    p1.success( function () {
+      expectationsMet[0] = true;
+      checkForSuccess();
+    })
       .then(
-      function (data) { console.log("ooh it's my SECOND success handler"); },
-      function (reason) {
-        failTest(testName, "unexpected reject  handler called");
-        console.error("why do i need a reject handler? ", reason);
+        function () {
+          expectationsMet[1] = true;
+          checkForSuccess();
+        },
+        function () {
+          handleTestFailed("testSuccessFlow", "unexpected reject handler called");
+          completed = true;
+        }
+    ).fail(
+      function () {
+        handleTestFailed("testSuccessFlow", "unexpected fail handler called");
+        completed = true;
       }
     );
-    p1.then(successHandler, errorHandler);
-  };
 
-
-  logToPage("", "Starting tests...");
+    setTimeout(function () {
+      if (!completed) {
+        handleTestFailed("testSuccessFlow", "test did not complete before timeout");
+      }
+    }, MAX_TEST_DURATION );
+  });
 
 
   var testErrorHandling = function () {
@@ -77,9 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
 
-  // The interaction of testNiceGet and testErrorHandling cause testNiceGet to fail.
-  testNiceGet();
-  testErrorHandling();
+//  testErrorHandling();
 
 
 
