@@ -3,6 +3,18 @@ var Lightbox = (function () {
   var current = 0;
   return {
 
+    addEventListeners: function (container) {
+      container.getElementById('PreviousButton').addEventListener(
+        'click',
+        function (event) { Lightbox.goToPrevious(); }
+      );
+
+      container.getElementById('NextButton').addEventListener(
+        'click',
+        function (event) { Lightbox.goToNext(); }
+      );
+    },
+
     setGalleryData: function (photos) {
       galleryData = photos;
       current = 0;
