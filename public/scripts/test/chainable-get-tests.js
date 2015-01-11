@@ -6,11 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
   var testOuptutSelector = '[data-test-name=ChainableGet]';
   var MAX_TEST_DURATION = 2000; // milliseconds
 
-  var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
-  var notFound = "http://prettykitty.herokuapp.com/000";
-
   var logToPage = function (cssClass, msg) {
     $(testOuptutSelector + ' .log').append($("<h2>").addClass(cssClass).text(msg));
+    console.log(cssClass + ": " + msg);
   };
 
   var failures = [];
@@ -33,15 +31,23 @@ document.addEventListener("DOMContentLoaded", function() {
     testFunc();
   };
 
+  var allTestsCompleted = function () {
+    var completedTests = failures.concat(passes);
+    return (completedTests.length === allTests.length);
+  };
+
   doTest("testSuccessFlow", function () {
     var expectationsMet = [ false, false ];
+    var completed = false;
     var checkForSuccess = function () {
       if (expectationsMet[0] && expectationsMet[1]) {
         completed = true;
         handleTestPassed("testSuccessFlow");
       }
     };
-    var completed = false;
+
+    // This url should return nice data
+    var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
 
     var p1 = new ChainableGet().get(testUrl);
 
@@ -73,24 +79,36 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
 
-  var testErrorHandling = function () {
-    console.log("testErrorHandling: ", notFound);
-    var p2 = new ChainableGet().get(notFound);
-
-    //.fail(function (reason) {
-    //  console.log("My VERY OWN error handler!!! #1", reason);
-    //})
-    //.fail(function (reason) {
-    //  console.log("ANOTHER error handler!!! #2", reason);
-    //});
-    //  .then(successHandler, errorHandler);
-  };
+  doTest("testErrorHandlingWithFail", function () {
+    var notFoundUrl = "http://prettykitty.herokuapp.com/000"; // this will return a 404
+    var p = new ChainableGet().get(notFoundUrl)
+      .fail(
+        function () { handleTestPassed("testErrorHandlingWithFail", "received expected failure call")}
+    ).success(
+      function () { handleTestFailed("testErrorHandlingWithFail", "received unexpected success call")}
+    );
+  });
 
 
-//  testErrorHandling();
+  doTest("testErrorHandlingWithThen", function () {
+    var notFoundUrl = "http://prettykitty.herokuapp.com/000"; // this will return a 404
+    var p = new ChainableGet()
+      .get(notFoundUrl)
+      .then(
+        function () { handleTestFailed("testErrorHandlingWithThen", "received unexpected onResolved call")},
+        function () { handleTestPassed("testErrorHandlingWithThen", "received expected onRejected call")}
+      );
 
+    // TODO: this needs to check for completion
 
+  });
 
-
+  setTimeout(function () {
+    if (allTestsCompleted()) {
+      logToPage("info", "All tests completed");
+    } else {
+      logToPage("error", "Some tests did not complete!");
+    }
+  }, MAX_TEST_DURATION * allTests.length);
 
 });
