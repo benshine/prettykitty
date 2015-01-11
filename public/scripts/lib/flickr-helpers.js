@@ -16,7 +16,7 @@ var FlickrHelpers = (function () {
 
   var doRequest = function (params) {
     var url = api_base + BJQ.encodeUrlParams(params);
-    return BJQ.get(url)
+    return new ChainableGet().get(url)
   };
 
   var defaultErrorHandler = function (message) {
@@ -53,9 +53,9 @@ var FlickrHelpers = (function () {
     },
 
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
-      return this.getPhotoUrls(photoId).success(function (urlInfo) {
+      return this.getPhotoUrls(photoId).success(function (responseText) {
         errorHandler = errorHandler || defaultErrorHandler;
-
+        var urlInfo = JSON.parse(responseText);
         // TODO: accept different size parameters
         var imageUrl;
 
@@ -81,7 +81,8 @@ var FlickrHelpers = (function () {
 
     loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {
       errorHandler = errorHandler || defaultErrorHandler;
-      this.getPhotoMetadata(photoId).success(function(metadata) {
+      this.getPhotoMetadata(photoId).success(function(responseText) {
+        var metadata = JSON.parse(responseText);
         BJQ.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
         BJQ.setText(titleSelector, metadata.photo.title._content || "Untitled");
         BJQ.setLink(linkSelector, (metadata.photo.urls.url[0]._content));

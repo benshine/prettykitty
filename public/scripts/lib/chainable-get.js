@@ -6,12 +6,14 @@ function ChainableGet() {
   this.failFunctions = [];
 
   this.successHandler = function (data) {
+    console.log("Success handler for ", this.url);
     this.successFunctions.forEach(function (successFunc) {
       successFunc(data);
     })
   };
 
   this.errorHandler = function (data) {
+    console.log("Error handler for ", this.url);
     this.failFunctions.forEach(function (failFunc) {
       failFunc(data);
     });
@@ -39,7 +41,7 @@ function ChainableGet() {
 
     this.promise
       .then(this.successHandler.bind(this), this.errorHandler.bind(this))
-      //.catch(this.catchHandler.bind(this));
+      .catch(this.catchHandler.bind(this));
 
     return this;
   };
