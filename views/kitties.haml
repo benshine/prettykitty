@@ -9,6 +9,7 @@
     %script{src: "scripts/polyfill-array-find.js"}
     %script{src: "scripts/helpers.js"}
     %script{src: "scripts/flickr-helpers.js"}
+    %script{src: "scripts/lightbox.js"}
 
   %body
 
@@ -17,15 +18,15 @@
       %h2 A cat pictures slideshow viewer and javascript exercise
       %a{href: "https://github.com/benshine/prettykitty"} by Benji Shine
 
-      .LoadingIndicator Loading...
-
-
-      .LightBox{ style: "display: none" }
+      .LightBox
         %img.LightBox-mainImage
         .ImageInfo
           .ImageInfo-owner (loading owner)
           %a.ImageInfo-url{ target: '_blank' }
             %span.ImageInfo-title (loading title)
+        .controls
+          %button{class: 'PreviousButton'} Previous
+          %button{class: 'NextButton'} Next
 
       %ul.Thumbnails
 

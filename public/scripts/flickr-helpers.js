@@ -64,7 +64,8 @@ var FlickrHelpers = (function () {
           return;
         }
 
-        var desiredSize = "Medium"
+        var desiredSize = "Medium";
+        console.log("Available sizes: ", urlInfo.sizes.size);
         var desiredSizeInfo = urlInfo.sizes.size.find(
           function (sizeInfo) { return sizeInfo.label === desiredSize }
         );

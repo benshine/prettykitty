@@ -15,7 +15,6 @@ body {
 }
 
 .LightBox-mainImage {
-  width: 900px; // but this isn't great because we don't know the images actual width
   margin: 0 auto;
 }
 
@@ -32,4 +31,8 @@ body {
 .Thumbnails .Image-owner,
 .Thumbnails .Image-link {
   display: none;
+}
+
+.LightBox .controls {
+  margin-top: 30px;
 }
