@@ -18,6 +18,8 @@ function ChainableGet() {
   };
 
   this.get = function (url) {
+    this.url = url;
+
     this.promise = new Promise(function (resolve, reject) {
       var handleStateChange = function () {
         if (req.readyState === XHR_COMPLETE) {
@@ -36,9 +38,14 @@ function ChainableGet() {
     });
 
     this.promise
-      .then(this.successHandler.bind(this), this.errorHandler.bind(this));
+      .then(this.successHandler.bind(this), this.errorHandler.bind(this))
+      //.catch(this.catchHandler.bind(this));
 
     return this;
+  };
+
+  this.catchHandler = function (data) {
+    console.error("Catch Handler! ", data);
   };
 
   this.success = function (fn) {
@@ -56,5 +63,4 @@ function ChainableGet() {
     return this;
   };
 
-  return this;
 };

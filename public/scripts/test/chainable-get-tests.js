@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+
+  // These tests are just for me to debug/develop with -- they don't actually
+  //  pass or fail in a meaningful way
+
   var testOuptutSelector = '[data-test-name=ChainableGet]';
 
   var testUrl = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
@@ -7,6 +11,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var logToPage = function (cssClass, msg ) {
     $(testOuptutSelector + ' .log').append($("<h2>").addClass(cssClass).text(msg));
+  };
+
+  var failures = [];
+
+  var failTest = function (testName, message) {
+    failures.push({
+      testName: testName,
+      message: message
+    });
+
+    logToPage("error", "Failed test " + testName + ": " + message);
   };
 
   var successHandler = function (data) {
@@ -21,12 +36,16 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
   var testNiceGet = function () {
+    var testName = "testNiceGet";
+    console.log("testNiceGet");
     var p1 = new ChainableGet().get(testUrl);
+
     p1.success( successHandler)
       .then(
       function (data) { console.log("ooh it's my SECOND success handler"); },
       function (reason) {
-        console.error("why do i need a reject handler? ")
+        failTest(testName, "got unexxpected reject  handler called");
+        console.error("why do i need a reject handler? ", reason);
       }
     );
     p1.then(successHandler, errorHandler);
@@ -50,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
 
+  // The interaction of testNiceGet and testErrorHandling cause testNiceGet to fail.
   testNiceGet();
   testErrorHandling();
 
