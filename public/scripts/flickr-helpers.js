@@ -75,7 +75,7 @@ var FlickrHelpers = (function () {
           errorHandler("Could not find size " + desiredSize);
         }
 
-        $(imageElementSelector).attr('src', imageUrl);
+        KittyHelpers.setImage(imageElementSelector, imageUrl);
       }).fail(errorHandler);
     },
 
