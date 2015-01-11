@@ -15,6 +15,7 @@ var BJQ = (function () {
 
     // This is an incredibly simple get handler that is not meant to handle
     // all situations. Just enough for the current application.
+    // It returns a Promise, but also supports explicit success and failure handlers
     //
     // It does not handle invalid URLs.
     // The only success it recognizes is http code 200.
@@ -32,7 +33,7 @@ var BJQ = (function () {
               }
               resolve(req.responseText);
             } else {
-              console.log("error...", req);
+              console.log("error... getting ", url, req);
               if (errorHandler) {
                 errorHandler(req);
               }
