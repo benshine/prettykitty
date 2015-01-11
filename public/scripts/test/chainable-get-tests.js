@@ -33,7 +33,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var allTestsCompleted = function () {
     var completedTests = failures.concat(passes);
-    return (completedTests.length === allTests.length);
+    return allTests.every(function (testName) {
+      return completedTests.indexOf(testName) >= 0;
+    })
   };
 
   doTest("testSuccessFlow", function () {
@@ -98,9 +100,6 @@ document.addEventListener("DOMContentLoaded", function() {
         function () { handleTestFailed("testErrorHandlingWithThen", "received unexpected onResolved call")},
         function () { handleTestPassed("testErrorHandlingWithThen", "received expected onRejected call")}
       );
-
-    // TODO: this needs to check for completion
-
   });
 
   setTimeout(function () {
