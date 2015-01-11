@@ -15,8 +15,8 @@ var FlickrHelpers = (function () {
   };
 
   var doRequest = function (params) {
-    var url = api_base + KittyHelpers.encodeUrlParams(params);
-    return KittyHelpers.get(url)
+    var url = api_base + BJQ.encodeUrlParams(params);
+    return BJQ.get(url)
   };
 
   var defaultErrorHandler = function (message) {
@@ -75,16 +75,16 @@ var FlickrHelpers = (function () {
           errorHandler("Could not find size " + desiredSize);
         }
 
-        KittyHelpers.setImage(imageElementSelector, imageUrl);
+        BJQ.setImage(imageElementSelector, imageUrl);
       }).fail(errorHandler);
     },
 
     loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {
       errorHandler = errorHandler || defaultErrorHandler;
       this.getPhotoMetadata(photoId).success(function(metadata) {
-        KittyHelpers.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
-        KittyHelpers.setText(titleSelector, metadata.photo.title._content || "Untitled");
-        KittyHelpers.setLink(linkSelector, (metadata.photo.urls.url[0]._content));
+        BJQ.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
+        BJQ.setText(titleSelector, metadata.photo.title._content || "Untitled");
+        BJQ.setLink(linkSelector, (metadata.photo.urls.url[0]._content));
       }).fail(errorHandler);
     }
   };

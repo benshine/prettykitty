@@ -1,5 +1,16 @@
 
-var KittyHelpers = (function () {
+/*
+ *  BJQ: Benji's jQuery replacement
+ *
+ *  A minimal replacement for a few jQuery functions.
+ *  These are not meant to be complete replacements, and in fact
+ *  I've given them different names from the general jquery functions
+ *  to make it clear that I'm not trying to support all the behavioro
+ *  that jquery does. These are just focused functions to do exactly
+ *  what I need for this application.
+ */
+
+var BJQ = (function () {
   return {
     get: function (url) {
       return $.get.call($, url)
@@ -21,15 +32,15 @@ var KittyHelpers = (function () {
     },
 
     setText: function (selector, value) {
-      KittyHelpers.getBySelector(selector).innerHTML = value;
+      BJQ.getBySelector(selector).innerHTML = value;
     },
 
     setLink: function (selector, value) {
-      return KittyHelpers.getBySelector(selector).setAttribute('href', value);
+      return BJQ.getBySelector(selector).setAttribute('href', value);
     },
 
     setImage: function (selector, value) {
-      return KittyHelpers.getBySelector(selector).setAttribute('src', value);
+      return BJQ.getBySelector(selector).setAttribute('src', value);
     }
   }
 }());
