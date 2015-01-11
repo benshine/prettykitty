@@ -6,13 +6,21 @@ var Lightbox = (function () {
     addEventListeners: function (container) {
       container.getElementById('PreviousButton').addEventListener(
         'click',
-        function (event) { Lightbox.goToPrevious(); }
+        function () { Lightbox.goToPrevious(); }
       );
 
       container.getElementById('NextButton').addEventListener(
         'click',
-        function (event) { Lightbox.goToNext(); }
+        function () { Lightbox.goToNext(); }
       );
+
+      container.addEventListener('keyup', function (event) {
+        if (event.keyIdentifier === "Right") {
+          Lightbox.goToNext();
+        } else if (event.keyIdentifier === "Left") {
+          Lightbox.goToPrevious();
+        }
+      });
     },
 
     setGalleryData: function (photos) {
@@ -21,7 +29,6 @@ var Lightbox = (function () {
     },
 
     showCurrentPhotoInLightbox: function () {
-      console.log(galleryData);
       this.showPhotoInLightbox(galleryData.photo[current].id);
     },
 
@@ -47,10 +54,7 @@ var Lightbox = (function () {
         '.LightBox .ImageInfo-title',
         '.LightBox .ImageInfo-url'
       );
-      FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage')
-        .then(function () {
-          console.log("and then...");
-        });
+      FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage');
     },
 
     loadAndShowGallery: function (galleryId) {
