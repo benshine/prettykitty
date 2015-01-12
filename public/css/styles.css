@@ -1,5 +1,7 @@
 body {
   font-family: 'Raleway', sans-serif;
+  color: #DDDDDD;
+  background-color: black;
 }
 
 .container {
@@ -15,10 +17,22 @@ body {
   -webkit-transform: translate(-50%, -50%);
 }
 
+.LightBox-mainImage {
+  margin: 20px 0;
+}
+
+.ImageInfo-owner {
+  line-height: 2.5rem;
+}
+
 footer {
   position: absolute;
   right: 10px;
   bottom: 10px;
+}
+
+a.credits, a.ImageInfo-url {
+  color: #DDDDDD;
 }
 
 a {

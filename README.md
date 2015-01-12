@@ -24,8 +24,6 @@ application.
     open http://localhost:5000
 
 ### Stuff I'd like to do to consider this complete:
-
-- position the lightboxed photo in the center of the viewport
 - transitions between photos
 - ability to set a different gallery
 - concatenate all the js files together so I don't have to worry about load order
