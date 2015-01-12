@@ -14,13 +14,19 @@
 
   .container
     .LightBox
-      %img.LightBox-mainImage
+      .LightBox-imageContainer
+        %img.LightBox-mainImage
+
       .ImageInfo
         %a.ImageInfo-url{ target: '_blank' }
           %span.ImageInfo-title
         .ImageInfo-owner
 
-    %footer
-      %a{href: "https://github.com/benshine/prettykitty", target: "_blank", class: "credits"} prettykitty by benji shine
+
+  .controls-container
+    .controls
+      %button#NextButton <
+      %button#PreviousButton >
+
 
     %script{src: "scripts/main.js"}

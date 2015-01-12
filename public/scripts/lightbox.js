@@ -6,15 +6,21 @@ var Lightbox = (function () {
   return {
 
     addEventListeners: function (container) {
-      //container.getElementById('PreviousButton').addEventListener(
-      //  'click',
-      //  function () { Lightbox.goToPrevious(); }
-      //);
-      //
-      //container.getElementById('NextButton').addEventListener(
-      //  'click',
-      //  function () { Lightbox.goToNext(); }
-      //);
+      container.getElementById('PreviousButton').addEventListener(
+        'click',
+        function (event) {
+          event.preventDefault();
+          Lightbox.goToPrevious();
+        }
+      );
+
+      container.getElementById('NextButton').addEventListener(
+        'click',
+        function (event) {
+          event.preventDefault();
+          Lightbox.goToNext();
+        }
+      );
 
       container.addEventListener('keyup', function (event) {
         if (event.keyIdentifier === "Right") {

@@ -1,3 +1,4 @@
+/*   Page elements ----------------------------------------------- */
 body {
   font-family: 'Raleway', sans-serif;
   color: #DDDDDD;
@@ -9,6 +10,12 @@ body {
   height: 600px;
 }
 
+a {
+  color: #DDDDDD;
+  text-decoration: none;
+}
+
+/* Big image display --------------------------------------- */
 .LightBox {
   position: absolute;
   top: 50%;
@@ -25,16 +32,40 @@ body {
   line-height: 2.5rem;
 }
 
-footer {
+
+/* Controls  ----------------------------------------------------- */
+
+.controls-container {
   position: absolute;
-  right: 10px;
   bottom: 10px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-a.credits, a.ImageInfo-url {
-  color: #DDDDDD;
+.controls {
+  width: 4em;
+  margin: 0 auto;
 }
 
-a {
-  text-decoration: none;
+.controls button {
+  border: none;
+  background: none;
+  color: white;
+  font-size: larger;
+  border-radius: 5px;
+  bottom: 0;
+}
+
+.controls button:focus {
+  outline: none;
+}
+
+.controls button:hover {
+  background: #444444;
+}
+
+#NextButton {
+}
+
+#PreviousButton {
 }
