@@ -22,6 +22,8 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
+  transition: opacity 0.5s;
+  opacity: 0;
 }
 
 .LightBox-mainImage {
