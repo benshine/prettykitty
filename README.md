@@ -4,16 +4,20 @@
 I'm working on this as an exercise in life without jquery or css frameworks.
 
 The live app (still a work in progress!) is deployed to [heroku](https://prettykitty.herokuapp.com/)
-
-First I'm building it with a few jquery calls, but wrapping all jquery calls in my own
-object. The only jquery call left is $.get and calls to success/error callbacks
-on the jqXHR it returns.
+Right arrow and left arrow keys work for next/previous, or just hit the buttons.
 
 ### Ingredients
 
 - sinatra
 - haml
 - ruby 2.1.5
+
+[BJQ.js ("Benji's jQuery")](https://github.com/benshine/prettykitty/blob/master/public/scripts/lib/bjq.js)
+is my miniature jquery replacement, and
+[ChainableGet](https://github.com/benshine/prettykitty/blob/master/public/scripts/lib/chainable-get.js)
+is my $.get replacement. Neither of those accept all the parameters and options that jQuery function do,
+and they haven't been tested outside of Chrome, but they do the basic things I need for this
+application.
 
 ### To run:
     bundle install
@@ -22,15 +26,14 @@ on the jqXHR it returns.
 
 ### Stuff I'd like to do to consider this complete:
 
-- write my own version of $.get
 - position the lightboxed photo in the center of the viewport
-- write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
 - transitions between photos
 - ability to set a different gallery
 - concatenate all the js files together so I don't have to worry about load order
 - display of loading and error states
 - make it look decent on small screens
 - jshint
+- write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
 
 ### Stuff I'm deliberately not going to do, for now:
 
@@ -39,5 +42,7 @@ on the jqXHR it returns.
 - Write tests. This is a prototype and an exercise to force me to learn new techniques.
   I'm already pretty good at writing exhaustive javascript tests, thanks to the
   mentorship of co-workers at Twitter. Writing a mock/stub and test DSL library
-  from scratch would be a useful exercise, but it's not my focus for today.
+  from scratch would be a useful exercise, but it's not my focus for today. I did,
+  however, write a few tests of my $.get replacement at http://localhost:5000/tests --
+  that had some gnarly async and scope challenges that made automated tests very useful.
 
