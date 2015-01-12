@@ -3,8 +3,7 @@
 
 I'm working on this as an exercise in life without jquery or css frameworks.
 
-The live app (still a work in progress!) is deployed to [heroku](https://prettykitty.herokuapp.com/)
-Right arrow and left arrow keys work for next/previous, or just hit the buttons.
+The live app (still a work in progress!) is deployed to [heroku](https://prettykitty.herokuapp.com/).
 
 ### Ingredients
 
