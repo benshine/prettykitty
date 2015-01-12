@@ -15,38 +15,11 @@ var BJQ = (function () {
 
     // This is an incredibly simple get handler that is not meant to handle
     // all situations. Just enough for the current application.
-    // It returns a Promise, but also supports explicit success and failure handlers
-    //
-    // It does not handle invalid URLs.
-    // The only success it recognizes is http code 200.
-    get: function (url, successHandler, errorHandler) {
-      var XHR_COMPLETE = 4;
-      var HTTP_RESPONSE_OK = 200;
-
-      return new Promise (function (resolve, reject) {
-        var handleStateChange = function () {
-          if (req.readyState === XHR_COMPLETE) {
-            if (req.status === HTTP_RESPONSE_OK) { // TODO: handle other success codes
-              console.log("success...", req);
-              if (successHandler) {
-                successHandler(req.responseText);
-              }
-              resolve(req.responseText);
-            } else {
-              console.log("error... getting ", url, req);
-              if (errorHandler) {
-                errorHandler(req);
-              }
-              reject(req);
-            }
-          }
-        };
-
-        req = new XMLHttpRequest();
-        req.onreadystatechange = handleStateChange;
-        req.open('GET', url);
-        req.send();
-      });
+    // It returns a ChainableGet, which has three chainable methods:
+    // `success`, `fail`, and `then`
+    // See flickr-helpers.js for usage examples
+    get: function (url) {
+      return new ChainableGet().get(url);
     },
 
     encodeUrlParams:   function (params) {

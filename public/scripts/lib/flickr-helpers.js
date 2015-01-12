@@ -16,7 +16,7 @@ var FlickrHelpers = (function () {
 
   var doRequest = function (params) {
     var url = api_base + BJQ.encodeUrlParams(params);
-    return new ChainableGet().get(url)
+    return BJQ.get(url)
   };
 
   var defaultErrorHandler = function (message) {
