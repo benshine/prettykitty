@@ -5,17 +5,23 @@ body {
 .container {
   width: 900px;
   margin: 0 auto;
+  height: 600px;
+  /*border: 2px solid blueviolet;*/
 }
 
 .LightBox {
-  margin: 0 auto;
-  width: 900px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .LightBox-mainImage {
-  margin: 0 auto;
 }
 
 .Thumbnails {

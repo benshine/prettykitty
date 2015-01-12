@@ -12,25 +12,15 @@
     %script{src: "scripts/lightbox.js"}
   %body
 
-    .container
-      %h1 Hello, pretty kitty
-      %h6 A cat pictures slideshow viewer and javascript exercise
-      %a{href: "https://github.com/benshine/prettykitty"} by Benji Shine
+  .container
+    .LightBox
+      %img.LightBox-mainImage
+      .ImageInfo
+        .ImageInfo-owner (loading owner)
+        %a.ImageInfo-url{ target: '_blank' }
+          %span.ImageInfo-title (loading title)
 
-      .LightBox
-        %img.LightBox-mainImage
-        .ImageInfo
-          .ImageInfo-owner (loading owner)
-          %a.ImageInfo-url{ target: '_blank' }
-            %span.ImageInfo-title (loading title)
-        .controls
-          %button#PreviousButton Previous
-          %button#NextButton Next
-
-      %ul.Thumbnails
-
-
-
-
+      %footer
+        .credits by benji shine
 
     %script{src: "scripts/main.js"}
