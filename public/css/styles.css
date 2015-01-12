@@ -3,10 +3,8 @@ body {
 }
 
 .container {
-  width: 900px;
   margin: 0 auto;
   height: 600px;
-  /*border: 2px solid blueviolet;*/
 }
 
 .LightBox {
@@ -14,40 +12,15 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
 footer {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 10px;
+  bottom: 10px;
 }
 
-.LightBox-mainImage {
-}
-
-.Thumbnails {
-  list-style: none
-}
-
-.Thumbnails .Thumbnail {
-  margin: 10px;
-  display: inline-block;
-}
-
-.Thumbnails .Image-title,
-.Thumbnails .Image-owner,
-.Thumbnails .Image-link {
-  display: none;
-}
-
-.LightBox .controls {
-  margin-top: 30px;
-}
-
-.success {
-  color: darkgreen;
-}
-
-.error {
-  color: darkred;
+a {
+  text-decoration: none;
 }
