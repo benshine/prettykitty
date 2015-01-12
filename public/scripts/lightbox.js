@@ -62,7 +62,8 @@ var Lightbox = (function () {
         '.LightBox .ImageInfo-title',
         '.LightBox .ImageInfo-url'
       );
-      FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage');
+      FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage')
+        .success(this.showControls)
     },
 
     loadAndShowGallery: function (galleryId) {
@@ -71,6 +72,10 @@ var Lightbox = (function () {
         self.setGalleryData(JSON.parse(responseText).photos);
         self.showCurrentPhotoInLightbox();
       });
+    },
+
+    showControls: function () {
+      document.querySelector('.controls-container').style.opacity = 1;
     }
   }
 }());

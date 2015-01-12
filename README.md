@@ -25,9 +25,10 @@ application.
 
 ### Stuff I'd like to do to consider this complete:
 - transitions between photos
+- display of loading and error states
+- show biggest image that will fit in available screen real estate
 - ability to set a different gallery
 - concatenate all the js files together so I don't have to worry about load order
-- display of loading and error states
 - make it look decent on small screens
 - jshint
 - write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
