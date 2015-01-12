@@ -3,6 +3,11 @@
 var Lightbox = (function () {
   var galleryData = undefined;
   var current = 0;
+
+  var LOADING = "LOADING";
+  var LOAD_COMPLETED = "LOAD_COMPLETED";
+  var currentState = LOADING;
+
   return {
 
     addEventListeners: function (container) {
@@ -37,7 +42,7 @@ var Lightbox = (function () {
     },
 
     showCurrentPhotoInLightbox: function () {
-      this.showPhotoInLightbox(galleryData.photo[current].id);
+      return this.showPhotoInLightbox(galleryData.photo[current].id);
     },
 
     goToNext: function () {
@@ -62,20 +67,46 @@ var Lightbox = (function () {
         '.LightBox .ImageInfo-title',
         '.LightBox .ImageInfo-url'
       );
-      FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage')
-        .success(this.showControls)
+      return FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage');
     },
 
     loadAndShowGallery: function (galleryId) {
       var self = this;
-      FlickrHelpers.getGallery(galleryId).success(function (responseText) {
-        self.setGalleryData(JSON.parse(responseText).photos);
-        self.showCurrentPhotoInLightbox();
-      });
+      self.switchToState(LOADING)
+      FlickrHelpers.getGallery(galleryId)
+        .success(function (responseText) {
+          self.setGalleryData(JSON.parse(responseText).photos);
+          self.showCurrentPhotoInLightbox().success(
+            function () {
+              self.switchToState(LOAD_COMPLETED)
+            }
+          )
+        })
+      ;
+    },
+
+    switchToState: function (newState) {
+      if (currentState === newState) {
+        return;
+      }
+
+      if (newState === LOAD_COMPLETED) {
+        this.showControls();
+        currentState = LOAD_COMPLETED;
+      } else if (newState === LOADING) {
+        currentState = LOADING;
+        this.hideControls();
+      } else {
+        throw new Error("transitioned to unknown state: ", newState);
+      }
     },
 
     showControls: function () {
       document.querySelector('.controls-container').style.opacity = 1;
+    },
+
+    hideControls: function () {
+      document.querySelector('.controls-container').style.opacity = 0;
     }
   }
 }());
