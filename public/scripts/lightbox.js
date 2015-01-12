@@ -1,3 +1,5 @@
+'use strict';
+
 var Lightbox = (function () {
   var galleryData = undefined;
   var current = 0;
@@ -59,10 +61,9 @@ var Lightbox = (function () {
 
     loadAndShowGallery: function (galleryId) {
       var self = this;
-      FlickrHelpers.getGallery(galleryId).success(function (responseData) {
-        self.setGalleryData(responseData.photos);
+      FlickrHelpers.getGallery(galleryId).success(function (responseText) {
+        self.setGalleryData(JSON.parse(responseText).photos);
         self.showCurrentPhotoInLightbox();
-
       });
     }
   }
