@@ -132,9 +132,10 @@ var FlickrHelpers = (function () {
           },
           function (info) { reject("trouble" + info); }
         );
-      });
+      }).catch(errorHandler);
 
       promise.success = promise.then;
+
 
       return promise;
     },
