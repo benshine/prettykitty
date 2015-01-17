@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    %title Chainable Get Tests
+    %title Tests for Pretty Kitty
     %link{:rel => "stylesheet", :href => "css/styles.css"}
     %link{:rel => "stylesheet", :href => "css/test-styles.css"}
     %link{:rel => "stylesheet", :href => "https://fonts.googleapis.com/css?family=Raleway"}
@@ -26,5 +26,10 @@
       .test{'data-test-name' => 'ChainableGet'}
         .log
 
+      %h2 FlickrHelpers Test
+      .test{'data-test-name' => 'FlickrHelpers'}
+        .log
+
 
   %script{src: "scripts/test/chainable-get-tests.js"}
+  %script{src: "scripts/test/flickr-helpers-tests.js"}

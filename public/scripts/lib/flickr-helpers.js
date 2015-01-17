@@ -55,6 +55,65 @@ var FlickrHelpers = (function () {
       ));
     },
 
+    getLargestUpTo: function (photoId, sizeDescriptor) {
+      var self = this;
+      var promise = new Promise(function (resolve, reject) {
+        return self.getPhotoUrls(photoId).success(function (responseText) {
+          var urlInfo = JSON.parse(responseText);
+          if (urlInfo.stat !== "ok") {
+            reject("Could not load photo sizes: " + urlInfo.message);
+            return;
+          }
+
+          var maxWidth = sizeDescriptor.width;
+          var maxHeight = sizeDescriptor.height;
+
+          if (!maxHeight || !maxWidth) {
+            reject("must specify width and height");
+          }
+
+          var sizeOptions = urlInfo.sizes.size;
+          // TODO: die if there are no sizes
+          var zeroSizeImageDescriptor = { width: 0, height: 0 };
+
+          // Note that flickr sometimes gives us strings and sometimes gives us
+          // number literals, so we have to parseInt everything to ensure returning
+          // size dimensions as numbers.
+
+          var bestMatch = sizeOptions.reduce( function (bestSoFar, current) {
+            var curWidth =  parseInt(current.width);
+            var curHeight = parseInt(current.height);
+
+            //console.log("bestSoFar width, height", bestSoFar.width, bestSoFar.height);
+            //console.log("current width, height", current.width, current.height);
+
+            if (self.between(bestSoFar.width, curWidth, maxWidth) &&
+                self.between(bestSoFar.height, curHeight, maxHeight)
+            ) {
+              bestSoFar = current;
+              bestSoFar.width = curWidth;
+              bestSoFar.height = curHeight;
+            }
+
+            return bestSoFar; // trivially incorrect implementation
+          }, zeroSizeImageDescriptor);
+
+          if (bestMatch.width === 0 && bestMatch.height === 0) {
+            reject("no valid images found");
+          }
+
+          resolve(bestMatch);
+        });
+      });
+
+      promise.success = promise.then;
+      return promise;
+    },
+
+    between: function(min, it, max) {
+      return (it > min && it < max);
+    },
+
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
       return this.getPhotoUrls(photoId).success(function (responseText) {
         errorHandler = errorHandler || defaultErrorHandler;
