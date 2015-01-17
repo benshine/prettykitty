@@ -133,12 +133,27 @@ var Lightbox = (function () {
       self.switchToState(LOADING);
       FlickrHelpers.getGallery(galleryId)
         .success(function (responseText) {
-          self.setGalleryData(JSON.parse(responseText).photos);
+          var galleryInfo = JSON.parse(responseText);
+          self.setGalleryData(galleryInfo.photos);
           self.showCurrentPhotoInLightbox();
           self.switchToState(LOAD_COMPLETED);
+          self.makeThumbnails(galleryInfo);
         })
       ;
     },
+
+
+    makeThumbnails: function (galleryInfo) {
+      var thumbnails = BJQ.getBySelector('.Thumbnails');
+      galleryInfo.photos.photo.forEach( function (photo) {
+        var item = document.createElement("li");
+        item.innerHTML = photo.url_q;
+        item.className = "Thumbnail";
+        thumbnails.appendChild(item);
+      });
+
+    },
+
 
     switchToState: function (newState) {
       if (currentState === newState) {

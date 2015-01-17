@@ -7,7 +7,7 @@ body {
 
 .container {
   margin: 0 auto;
-  height: 600px;
+  height: 500px;
 }
 
 a {
@@ -34,12 +34,38 @@ a {
   line-height: 2.5rem;
 }
 
+/* Thumbnails  ----------------------------------------------- */
+
+
+/* TODO: hide thumbnails when screen height is below 700px */
+
+.Thumbnails {
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+
+  height: 95px;
+  background-color: #444444;
+  position: absolute;
+  bottom: 20px;
+  overflow-y: hidden;
+}
+
+.Thumbnail {
+  width: 75px;
+  height: 75px;
+  margin: 10px;
+  float: left;
+  background-image: url("https://farm3.staticflickr.com/2230/2151139889_e7e0bcd02e_s.jpg");
+}
 
 /* Controls  ----------------------------------------------------- */
 
 .controls-container {
   position: absolute;
-  bottom: 10px;
+  bottom: 130px;
   margin: 0 auto;
   width: 100%;
   opacity: 0;
