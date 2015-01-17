@@ -115,30 +115,28 @@ var FlickrHelpers = (function () {
     },
 
     loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
-      return this.getPhotoUrls(photoId).success(function (responseText) {
-        errorHandler = errorHandler || defaultErrorHandler;
-        var urlInfo = JSON.parse(responseText);
-        // TODO: accept different size parameters
-        var imageUrl;
+      var largestSizeDesired = {
+        width: 1025,
+        height: 1000
+      };
+      var self = this;
 
-        if (urlInfo.stat !== "ok") {
-          errorHandler("Could not load photo urls: " + urlInfo.message);
-          return;
-        }
-
-        var desiredSize = "Medium"; // TODO: select size deliberately for lightbox dimensions
-        var desiredSizeInfo = urlInfo.sizes.size.find(
-          function (sizeInfo) { return sizeInfo.label === desiredSize; }
+      var promise = new Promise(function (resolve, reject) {
+        self.getLargestUpTo(photoId, largestSizeDesired)
+          .then(
+          function (photoData) { // success handler
+            // Explicitly set width and height now to prevent reflow when the image loads
+            BJQ.setWidthAndHeight(imageElementSelector, photoData.width, photoData.height);
+            BJQ.setImage(imageElementSelector, photoData.source);
+            resolve("completed");
+          },
+          function (info) { reject("trouble" + info); }
         );
+      });
 
-        if (desiredSizeInfo) {
-          imageUrl = desiredSizeInfo.source;
-        } else {
-          errorHandler("Could not find size " + desiredSize);
-        }
+      promise.success = promise.then;
 
-        BJQ.setImage(imageElementSelector, imageUrl);
-      }).fail(errorHandler);
+      return promise;
     },
 
     loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {

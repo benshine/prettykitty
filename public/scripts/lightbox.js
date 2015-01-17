@@ -80,11 +80,17 @@ var Lightbox = (function () {
       // Step 1: start fading out current image. That will take 0.5 s (see styles.css)
       lightbox.style.opacity = 0;
 
-      // Step 2: after a brief delay, , start loading next photo
+      // Step 2: after a brief delay, start loading next photo
       window.setTimeout(function () {
+        // Set the image elements source to none, so that we don't
+        // get a flash, which we might if the next photo is slow to load.
+        // This is a workaround for actually waiting for the photo to load before
+        // we start animating it.
+        BJQ.setImage('.LightBox .LightBox-mainImage', 'http://localhost:5000/images/transparent.png');
+
         self.showCurrentPhotoInLightbox()
           .success( function () {
-            // Step 3: Start animating opacity back in
+            // Step 3: Start animating image opacity back in
             lightbox.style.opacity = 1;
           });
 

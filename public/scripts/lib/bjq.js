@@ -50,6 +50,13 @@ var BJQ = (function () {
 
     setImage: function (selector, value) {
       return BJQ.getBySelector(selector).setAttribute('src', value);
+    },
+
+    setWidthAndHeight: function (selector, width, height) {
+      var element = BJQ.getBySelector(selector);
+      element.setAttribute('width', width);
+      element.setAttribute('height', height);
+      return element;
     }
   };
 }());
