@@ -1,5 +1,8 @@
+/* global BJQ, console */
 
 var FlickrHelpers = (function () {
+  'use strict';
+
   var api_key = "c41f95395bce6261e24a6d635e97c49b";
   var api_base = "https://api.flickr.com/services/rest/?";
 
@@ -11,12 +14,12 @@ var FlickrHelpers = (function () {
         nojsoncallback: 1
       },
       queryParams
-    )
+    );
   };
 
   var doRequest = function (params) {
     var url = api_base + BJQ.encodeUrlParams(params);
-    return BJQ.get(url)
+    return BJQ.get(url);
   };
 
   var defaultErrorHandler = function (message) {
@@ -66,7 +69,7 @@ var FlickrHelpers = (function () {
 
         var desiredSize = "Medium"; // TODO: select size deliberately for lightbox dimensions
         var desiredSizeInfo = urlInfo.sizes.size.find(
-          function (sizeInfo) { return sizeInfo.label === desiredSize }
+          function (sizeInfo) { return sizeInfo.label === desiredSize; }
         );
 
         if (desiredSizeInfo) {

@@ -1,6 +1,7 @@
-'use strict';
+/* global console, Promise */
 
 function ChainableGet() {
+  'use strict';
 
   var XHR_COMPLETE = 4;
   var HTTP_RESPONSE_OK = 200;
@@ -42,6 +43,7 @@ function ChainableGet() {
       req.send();
     });
 
+    //noinspection JSUnresolvedFunction
     this.promise
       .then(this.successHandler.bind(this), this.errorHandler.bind(this))
       .catch(this.catchHandler.bind(this));
@@ -67,5 +69,4 @@ function ChainableGet() {
     this.promise.then(onFulfilled, onRejected);
     return this;
   };
-
-};
+}
