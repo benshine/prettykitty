@@ -28,6 +28,15 @@ var Lightbox = (function () {
         }
       );
 
+      BJQ.getBySelector(".LightBox-mainImage ").addEventListener(
+        'click',
+        function (event) {
+          console.log("yep");
+          event.preventDefault();
+          Lightbox.goToNext();
+        }
+      );
+
       container.addEventListener('keyup', function (event) {
         if (event.keyIdentifier === "Right") {
           Lightbox.goToNext();

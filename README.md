@@ -24,7 +24,6 @@ application.
     open http://localhost:5000
 
 ### Stuff I'd like to do to consider this complete:
-- transitions between photos
 - display of loading and error states
 - show biggest image that will fit in available screen real estate
 - ability to set a different gallery
