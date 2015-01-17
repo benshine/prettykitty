@@ -82,6 +82,12 @@ var Lightbox = (function () {
       this.transitionToCurrentPhoto();
     },
 
+    emptyLightbox: function () {
+      BJQ.setImage(selectors.MAIN_IMAGE, 'http://localhost:5000/images/transparent.png');
+      BJQ.setText(selectors.MAIN_IMAGE_OWNER, '');
+      BJQ.setText(selectors.MAIN_IMAGE_TITLE, '');
+    },
+
     transitionToCurrentPhoto: function () {
       var self = this;
       var lightbox = document.querySelector('.LightBox');
@@ -91,11 +97,11 @@ var Lightbox = (function () {
 
       // Step 2: after a brief delay, start loading next photo
       window.setTimeout(function () {
-        // Set the image elements source to none, so that we don't
-        // get a flash, which we might if the next photo is slow to load.
+        // Empty out the lightbox so that we don't get a flash of the old photo,
+        // which we might if the next photo is slow to load.
         // This is a workaround for actually waiting for the photo to load before
         // we start animating it.
-        BJQ.setImage(selectors.MAIN_IMAGE, 'http://localhost:5000/images/transparent.png');
+        self.emptyLightbox();
 
         self.showCurrentPhotoInLightbox()
           .success( function () {
@@ -112,7 +118,14 @@ var Lightbox = (function () {
         selectors.MAIN_IMAGE_TITLE,
         selectors.MAIN_IMAGE_URL
       );
-      return FlickrHelpers.loadAndShowImage(photoId, selectors.MAIN_IMAGE);
+      // We need to redo these calculations every time we load an image,
+      // because the container size may have changed
+      var containerDimensions = BJQ.getDimensions('.container');
+      var largestSizeDesired = {
+        width: containerDimensions.width - 50,
+        height: containerDimensions.height - BJQ.getBySelector('.ImageInfo').clientHeight
+      };
+      return FlickrHelpers.loadAndShowImage(photoId, selectors.MAIN_IMAGE, largestSizeDesired);
     },
 
     loadAndShowGallery: function (galleryId) {

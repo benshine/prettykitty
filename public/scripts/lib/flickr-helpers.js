@@ -114,11 +114,7 @@ var FlickrHelpers = (function () {
       return (it > min && it < max);
     },
 
-    loadAndShowImage: function (photoId, imageElementSelector, errorHandler) {
-      var largestSizeDesired = {
-        width: 1025,
-        height: 1000
-      };
+    loadAndShowImage: function (photoId, imageElementSelector, largestSizeDesired, errorHandler) {
       var self = this;
 
       var promise = new Promise(function (resolve, reject) {

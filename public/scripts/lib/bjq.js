@@ -57,6 +57,14 @@ var BJQ = (function () {
       element.setAttribute('width', width);
       element.setAttribute('height', height);
       return element;
+    },
+
+    getDimensions: function (selector) {
+      var element = BJQ.getBySelector(selector);
+      return {
+        width: element.clientWidth,
+        height: element.clientHeight
+      };
     }
   };
 }());
