@@ -1,13 +1,16 @@
-'use strict';
+/* global console, $, ChainableGet */
 
 document.addEventListener("DOMContentLoaded", function() {
-  var testOuptutSelector = '[data-test-name=ChainableGet]';
+  'use strict';
+
+
   var MAX_TEST_DURATION = 2000; // milliseconds
   var VALID_EXTERNAL_URL = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
   var URL_THAT_WILL_404 = "http://localhost:5000/non_existent_url";
 
   var logToPage = function (cssClass, msg) {
-    $(testOuptutSelector + ' .log').append($("<h2>").addClass(cssClass).text(msg));
+    var TEST_OUTPUT_SELECTOR = '[data-test-name=ChainableGet]';
+    $(TEST_OUTPUT_SELECTOR + ' .log').append($("<h2>").addClass(cssClass).text(msg));
     console.log(cssClass + ": " + msg);
   };
 
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var completedTests = failures.concat(passes);
     return allTests.every(function (testName) {
       return completedTests.indexOf(testName) >= 0;
-    })
+    });
   };
 
   doTest("testSuccessFlow", function () {
@@ -53,29 +56,26 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     };
 
-    // This url should return nice data
-    var testUrl = VALID_EXTERNAL_URL;
-
-    var p1 = new ChainableGet().get(testUrl);
-
-    p1.success( function () {
-      expectationsMet[0] = true;
-      checkForSuccess();
-    })
-      .then(
+    new ChainableGet().get(VALID_EXTERNAL_URL)
+      .success( function () {
+        expectationsMet[0] = true;
+        checkForSuccess();
+      })
+        .then(
+          function () {
+            expectationsMet[1] = true;
+            checkForSuccess();
+          },
+          function () {
+            handleTestFailed("testSuccessFlow", "unexpected reject handler called");
+          }
+      ).fail(
         function () {
-          expectationsMet[1] = true;
-          checkForSuccess();
-        },
-        function () {
-          handleTestFailed("testSuccessFlow", "unexpected reject handler called");
+          handleTestFailed("testSuccessFlow", "unexpected fail handler called");
         }
-    ).fail(
-      function () {
-        handleTestFailed("testSuccessFlow", "unexpected fail handler called");
-      }
-    );
-  });
+      );
+    }
+  );
 
   doTest("testMultipleSuccesses", function () {
     var expectationsMet = [ false, false, false ];
@@ -85,9 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     };
 
-    var testUrl = VALID_EXTERNAL_URL;
-
-    var promise = new ChainableGet().get(testUrl)
+    new ChainableGet().get(VALID_EXTERNAL_URL)
       .success(function () {
         expectationsMet[0] = true;
         checkForSuccess();
@@ -99,26 +97,26 @@ document.addEventListener("DOMContentLoaded", function() {
       .success(function () {
         expectationsMet[2] = true;
         checkForSuccess();
-      })
+      });
   });
 
 
   doTest("testErrorHandlingWithFail", function () {
-    var p = new ChainableGet().get(URL_THAT_WILL_404)
+    new ChainableGet().get(URL_THAT_WILL_404)
       .fail(
-        function () { handleTestPassed("testErrorHandlingWithFail", "received expected failure call")}
+        function () { handleTestPassed("testErrorHandlingWithFail", "received expected failure call"); }
     ).success(
-      function () { handleTestFailed("testErrorHandlingWithFail", "received unexpected success call")}
+      function () { handleTestFailed("testErrorHandlingWithFail", "received unexpected success call"); }
     );
   });
 
 
   doTest("testErrorHandlingWithThen", function () {
-    var p = new ChainableGet()
+    new ChainableGet()
       .get(URL_THAT_WILL_404)
       .then(
-        function () { handleTestFailed("testErrorHandlingWithThen", "received unexpected onResolved call")},
-        function () { handleTestPassed("testErrorHandlingWithThen", "received expected onRejected call")}
+        function () { handleTestFailed("testErrorHandlingWithThen", "received unexpected onResolved call"); },
+        function () { handleTestPassed("testErrorHandlingWithThen", "received expected onRejected call"); }
       );
   });
 

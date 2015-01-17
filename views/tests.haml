@@ -5,7 +5,12 @@
     %link{:rel => "stylesheet", :href => "css/styles.css"}
     %link{:rel => "stylesheet", :href => "css/test-styles.css"}
     %link{:rel => "stylesheet", :href => "https://fonts.googleapis.com/css?family=Raleway"}
+
+    // Note that my tests use jQuery -- I chose ease of writing tests over
+    // sticking to the requirement of "no libraries". Let's interpret "no libraries"
+    // as "no libraries in application code"
     %script{src: "https://code.jquery.com/jquery-2.1.3.js"}
+
     %script{src: "scripts/lib/polyfill-object-assign.js"}
     %script{src: "scripts/lib/polyfill-array-find.js"}
     %script{src: "scripts/lib/bjq.js"}

@@ -37,10 +37,12 @@ application.
 
 - Make it work on old browsers or without javascript. My focus here is on writing
   javascript without libraries, using web standards, not on progressive enhancement.
-- Write tests. This is a prototype and an exercise to force me to learn new techniques.
+- Write more tests. This is a prototype and an exercise to force me to learn new techniques.
   I'm already pretty good at writing exhaustive javascript tests, thanks to the
   mentorship of co-workers at Twitter. Writing a mock/stub and test DSL library
   from scratch would be a useful exercise, but it's not my focus for today. I did,
   however, write a few tests of my $.get replacement at http://localhost:5000/tests --
   that had some gnarly async and scope challenges that made automated tests very useful.
+  Note that my tests use jquery; let's interpret "no libraries" as "no libraries
+  in application code."
 
