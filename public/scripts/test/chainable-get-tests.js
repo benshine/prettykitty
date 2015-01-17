@@ -3,7 +3,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   'use strict';
 
-
   var MAX_TEST_DURATION = 2000; // milliseconds
   var VALID_EXTERNAL_URL = "https://api.flickr.com/services/rest/?api_key=c41f95395bce6261e24a6d635e97c49b&method=flickr.galleries.getPhotos&format=json&nojsoncallback=1&gallery_id=11968896-72157622466344583&extras=owner_name,url,url_m,url_q";
   var URL_THAT_WILL_404 = "http://localhost:5000/non_existent_url";

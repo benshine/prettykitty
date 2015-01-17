@@ -1,7 +1,9 @@
-'use strict';
+/* global BJQ, FlickrHelpers, console */
 
 var Lightbox = (function () {
-  var galleryData = undefined;
+  'use strict';
+
+  var galleryData;
   var current = 0;
   var transitionDuration = 500; // ms duration of opacity transition of main image
 
@@ -100,7 +102,7 @@ var Lightbox = (function () {
 
     loadAndShowGallery: function (galleryId) {
       var self = this;
-      self.switchToState(LOADING)
+      self.switchToState(LOADING);
       FlickrHelpers.getGallery(galleryId)
         .success(function (responseText) {
           self.setGalleryData(JSON.parse(responseText).photos);
@@ -134,6 +136,6 @@ var Lightbox = (function () {
     hideControls: function () {
       document.querySelector('.controls-container').style.opacity = 0;
     }
-  }
+  };
 }());
 
