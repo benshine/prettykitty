@@ -11,6 +11,15 @@ var Lightbox = (function () {
   var LOAD_COMPLETED = "LOAD_COMPLETED";
   var currentState = LOADING;
 
+  var selectors = {
+    MAIN_IMAGE: '.LightBox-mainImage',
+    MAIN_IMAGE_OWNER: '.LightBox .ImageInfo-owner',
+    MAIN_IMAGE_TITLE: '.LightBox .ImageInfo-title',
+    MAIN_IMAGE_URL: '.LightBox .ImageInfo-url',
+    MAIN_IMAGE_AND_INFO: '.LightBox',
+    CONTROLS_CONTAINER: '.controls-container'
+  };
+
   return {
 
     addEventListeners: function (container) {
@@ -30,7 +39,7 @@ var Lightbox = (function () {
         }
       );
 
-      BJQ.getBySelector(".LightBox-mainImage ").addEventListener(
+      BJQ.getBySelector(selectors.MAIN_IMAGE).addEventListener(
         'click',
         function (event) {
           console.log("yep");
@@ -86,7 +95,7 @@ var Lightbox = (function () {
         // get a flash, which we might if the next photo is slow to load.
         // This is a workaround for actually waiting for the photo to load before
         // we start animating it.
-        BJQ.setImage('.LightBox .LightBox-mainImage', 'http://localhost:5000/images/transparent.png');
+        BJQ.setImage(selectors.MAIN_IMAGE, 'http://localhost:5000/images/transparent.png');
 
         self.showCurrentPhotoInLightbox()
           .success( function () {
@@ -99,11 +108,11 @@ var Lightbox = (function () {
 
     showPhotoInLightbox: function (photoId) {
       FlickrHelpers.loadAndShowMetadata(photoId,
-        '.LightBox .ImageInfo-owner',
-        '.LightBox .ImageInfo-title',
-        '.LightBox .ImageInfo-url'
+        selectors.MAIN_IMAGE_OWNER,
+        selectors.MAIN_IMAGE_TITLE,
+        selectors.MAIN_IMAGE_URL
       );
-      return FlickrHelpers.loadAndShowImage(photoId, '.LightBox .LightBox-mainImage');
+      return FlickrHelpers.loadAndShowImage(photoId, selectors.MAIN_IMAGE);
     },
 
     loadAndShowGallery: function (galleryId) {
@@ -126,7 +135,7 @@ var Lightbox = (function () {
       if (newState === LOAD_COMPLETED) {
         this.showControls();
         currentState = LOAD_COMPLETED;
-        document.querySelector('.LightBox').style.opacity = 1;
+        document.querySelector(selectors.MAIN_IMAGE_AND_INFO).style.opacity = 1;
       } else if (newState === LOADING) {
         currentState = LOADING;
         this.hideControls();
@@ -136,11 +145,11 @@ var Lightbox = (function () {
     },
 
     showControls: function () {
-      document.querySelector('.controls-container').style.opacity = 1;
+      document.querySelector(selectors.CONTROLS_CONTAINER).style.opacity = 1;
     },
 
     hideControls: function () {
-      document.querySelector('.controls-container').style.opacity = 0;
+      document.querySelector(selectors.CONTROLS_CONTAINER).style.opacity = 0;
     }
   };
 }());
