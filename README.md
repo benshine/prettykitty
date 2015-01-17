@@ -31,6 +31,7 @@ application.
 - make it look decent on small screens
 - jshint
 - write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
+- convert ChainableGet to use Object.create rather than being a constructor
 
 ### Stuff I'm deliberately not going to do, for now:
 

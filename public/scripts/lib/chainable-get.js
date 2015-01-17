@@ -50,7 +50,7 @@ function ChainableGet() {
   };
 
   this.catchHandler = function (data) {
-    console.error("Catch Handler! ", data);
+    console.error("Exception caught in promise for " + this.url, data);
   };
 
   this.success = function (fn) {
