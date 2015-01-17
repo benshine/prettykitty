@@ -11,6 +11,8 @@ var Lightbox = (function () {
   var LOAD_COMPLETED = "LOAD_COMPLETED";
   var currentState = LOADING;
 
+  var THUMBNAIL_SIZE = 75;
+
   var selectors = {
     MAIN_IMAGE: '.LightBox-mainImage',
     MAIN_IMAGE_OWNER: '.LightBox .ImageInfo-owner',
@@ -142,18 +144,17 @@ var Lightbox = (function () {
       ;
     },
 
-
     makeThumbnails: function (galleryInfo) {
       var thumbnails = BJQ.getBySelector('.Thumbnails');
       galleryInfo.photos.photo.forEach( function (photo) {
-        var item = document.createElement("li");
-        item.innerHTML = photo.url_q;
-        item.className = "Thumbnail";
-        thumbnails.appendChild(item);
+        var image = document.createElement("img");
+        image.setAttribute('src', photo.url_q);
+        image.setAttribute('width', 75);
+        image.setAttribute('height', 75);
+        image.setAttribute('data-photo-id', photo.id);
+        thumbnails.appendChild(image);
       });
-
     },
-
 
     switchToState: function (newState) {
       if (currentState === newState) {

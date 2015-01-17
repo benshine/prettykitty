@@ -51,7 +51,7 @@ var FlickrHelpers = (function () {
     getGallery: function (galleryId) {
       return doRequest(requestParams(
         "flickr.galleries.getPhotos",
-        { gallery_id: galleryId, extras: 'owner_name,url,url_m,url_q' }
+        { gallery_id: galleryId, extras: 'owner_name,url,url_m,url_s,url_q' }
       ));
     },
 
