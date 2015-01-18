@@ -58,7 +58,7 @@ var FlickrHelpers = (function () {
     getLargestUpTo: function (photoId, sizeDescriptor) {
       var self = this;
       var promise = new Promise(function (resolve, reject) {
-        return self.getPhotoUrls(photoId).success(function (responseText) {
+        return self.getPhotoUrls(photoId).then(function (responseText) {
           var urlInfo = JSON.parse(responseText);
           if (urlInfo.stat !== "ok") {
             reject("Could not load photo sizes: " + urlInfo.message);
@@ -135,12 +135,12 @@ var FlickrHelpers = (function () {
 
     loadAndShowMetadata: function (photoId, ownerSelector, titleSelector, linkSelector, errorHandler) {
       errorHandler = errorHandler || defaultErrorHandler;
-      this.getPhotoMetadata(photoId).success(function(responseText) {
+      this.getPhotoMetadata(photoId).then(function(responseText) {
         var metadata = JSON.parse(responseText);
         BJQ.setText(ownerSelector, metadata.photo.owner.realname || metadata.photo.owner.username || "Unknown owner" );
         BJQ.setText(titleSelector, metadata.photo.title._content || "Untitled");
         BJQ.setLink(linkSelector, (metadata.photo.urls.url[0]._content));
-      }).fail(errorHandler);
+      }).catch(errorHandler);
     }
   };
 

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
   var testBestSize = function(testName, photoId, sizeDescriptor, expectedResult) {
-    FlickrHelpers.getLargestUpTo(photoId, sizeDescriptor).success(function (photoData) {
+    FlickrHelpers.getLargestUpTo(photoId, sizeDescriptor).then(function (photoData) {
       if (photoData.width === expectedResult.width
         && photoData.height === expectedResult.height
         && photoData.source === expectedResult.source
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   doTest("test getLargestUpTo expected not to find a match", function (testName) {
     FlickrHelpers.getLargestUpTo(2805432983, {width: 1, height: 1}
-    ).success(function (photoData) {
+    ).then(function (photoData) {
       handleTestFailed(testName, "Found a match but we expected to fail " + photoData);
     }).catch(function (info) {
       handleTestPassed(testName);

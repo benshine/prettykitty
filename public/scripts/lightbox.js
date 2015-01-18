@@ -108,7 +108,7 @@ var Lightbox = (function () {
         self.emptyLightbox();
 
         self.showCurrentPhotoInLightbox()
-          .success( function () {
+          .then( function () {
             // Step 3: Start animating image opacity back in
             lightbox.style.opacity = 1;
           });
@@ -136,7 +136,7 @@ var Lightbox = (function () {
       var self = this;
       self.switchToState(states.LOADING_GALLERY_DATA);
       FlickrHelpers.getGallery(galleryId)
-        .success(function (responseText) {
+        .then(function (responseText) {
           var galleryInfo = JSON.parse(responseText);
           self.setGalleryData(galleryInfo.photos);
           self.showCurrentPhotoInLightbox();
