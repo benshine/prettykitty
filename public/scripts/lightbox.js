@@ -7,10 +7,13 @@ var Lightbox = (function () {
   var current = 0;
   var transitionDuration = 500; // ms duration of opacity transition of main image
 
-  var LOADING_GALLERY_DATA = "LOADING_GALLERY_DATA";
-  var GALLERY_OVERVIEW = "GALLERY_OVERVIEW";
-  var FOCUSED_ON_PHOTO = "FOCUSED_ON_PHOTO";
-  var currentState = LOADING_GALLERY_DATA;
+  var states = {
+    LOADING_GALLERY_DATA: "LOADING_GALLERY_DATA",
+    GALLERY_OVERVIEW: "GALLERY_OVERVIEW",
+    FOCUSED_ON_PHOTO: "FOCUSED_ON_PHOTO"
+  };
+
+  var currentState = states.LOADING_GALLERY_DATA;
 
   var THUMBNAIL_SIZE = 150;
 
@@ -53,12 +56,12 @@ var Lightbox = (function () {
       );
 
       container.addEventListener('keyup', function (event) {
-        if (event.keyIdentifier === "Right") {
+        if (event.keyCode === 39) { // right arrow
           Lightbox.goToNext();
-        } else if (event.keyIdentifier === "Left") {
+        } else if (event.keyCode === 37) { // left arrow
           Lightbox.goToPrevious();
         } else if (event.keyCode === 27) { // escape key
-          Lightbox.switchToState(GALLERY_OVERVIEW);
+          Lightbox.switchToState(states.GALLERY_OVERVIEW);
         }
       });
     },
@@ -136,13 +139,13 @@ var Lightbox = (function () {
 
     loadAndShowGallery: function (galleryId) {
       var self = this;
-      self.switchToState(LOADING_GALLERY_DATA);
+      self.switchToState(states.LOADING_GALLERY_DATA);
       FlickrHelpers.getGallery(galleryId)
         .success(function (responseText) {
           var galleryInfo = JSON.parse(responseText);
           self.setGalleryData(galleryInfo.photos);
           self.showCurrentPhotoInLightbox();
-          self.switchToState(GALLERY_OVERVIEW);
+          self.switchToState(states.GALLERY_OVERVIEW);
           self.makeThumbnails(galleryInfo);
         })
       ;
@@ -166,27 +169,25 @@ var Lightbox = (function () {
 
     handleThumbnailClick: function (event) {
       current = BJQ.getData(event.target, "index");
-      this.switchToState(FOCUSED_ON_PHOTO);
+      this.switchToState(states.FOCUSED_ON_PHOTO);
       this.transitionToCurrentPhoto();
     },
 
     switchToState: function (newState) {
-      console.log("switching to state: ", newState, " from ", currentState);
       if (currentState === newState) {
         return;
       }
 
-      if (newState === GALLERY_OVERVIEW) {
+      currentState = newState;
+      if (currentState === states.GALLERY_OVERVIEW) {
         this.toggleFocusMode(false);
-      } else if (newState === FOCUSED_ON_PHOTO) {
+      } else if (currentState === states.FOCUSED_ON_PHOTO) {
         this.toggleFocusMode(true);
-      } else if (newState === LOADING_GALLERY_DATA) {
+      } else if (currentState === states.LOADING_GALLERY_DATA) {
         this.toggleFocusMode(false);
       } else {
         throw new Error("transitioned to unknown state: ", newState);
       }
-
-      currentState = newState;
     },
 
     toggleFocusMode: function (focused) {
