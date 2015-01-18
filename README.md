@@ -24,10 +24,10 @@ application.
     open http://localhost:5000
 
 ### Stuff I'd like to do
-- thumbnails for all the images
 - better indicators for loading and error states
 - preload all images in the gallery
 - ability to set a different gallery
+- look better on mobile
 - concatenate all the js files together so I don't have to worry about load order
 - write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
 - convert ChainableGet to use Object.create rather than being a constructor

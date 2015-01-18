@@ -10,6 +10,7 @@
     %script{src: "scripts/lib/chainable-get.js"}
     %script{src: "scripts/lib/flickr-helpers.js"}
     %script{src: "scripts/lightbox.js"}
+    %script{src: "scripts/about.js"}
   %body
 
   .Thumbnails
@@ -31,5 +32,21 @@
       %button#NextButton <
       %button#PreviousButton >
 
+  %button#AboutButton about
 
-    %script{src: "scripts/main.js"}
+  .about
+    %h2 pretty kitty by benji shine
+
+    %p.instructions Click on a thumbnail to zoom in on it.        |
+      Hit escape or click outside the zoomed photo to dismiss it. |
+      Use the right arrow key to move to the next  |
+      image, and the left arrow key to move to the previous image. |
+      Click the title to view the photo on flickr.          |
+
+    %p
+      %a{href: "http://www.github.com/benshine/prettykitty", target: "_blank"} source code on github
+
+    %button.dismiss ok!
+
+
+  %script{src: "scripts/main.js"}

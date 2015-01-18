@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     kittens: "11968896-72157622466344583" // https://www.flickr.com/photos/roxdom/galleries/72157622466344583/
   };
 
+  About.addEventListeners(document);
   Lightbox.addEventListeners(document);
   Lightbox.loadAndShowGallery(galleries.kittens);
 });

@@ -46,6 +46,38 @@ a {
   line-height: 2.5rem;
 }
 
+/*  Help and credits */
+
+#AboutButton {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background-color: #444444;
+  font-size: 1.5rem;
+  text-align: center;
+  border: none;
+  border-top-left-radius: 10px;
+  padding: 10px;
+}
+
+#AboutButton:focus {
+  outline: none;
+}
+
+.about {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 25%;
+  background-color: #444444;
+  font-weight: bold;
+  padding: 30px;
+  border-top-left-radius: 10px;
+  line-height: 1.5rem;
+  text-align: right;
+  display: none;
+}
+
 /* Thumbnails  ----------------------------------------------- */
 
 
