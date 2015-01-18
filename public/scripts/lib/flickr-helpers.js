@@ -26,6 +26,10 @@ var FlickrHelpers = (function () {
     console.error("Oh noes, got an error", message);
   };
 
+  var between = function(min, it, max) {
+    return (it > min && it < max);
+  };
+
   return {
     getPhotoUrls: function (photoId) {
       return doRequest(requestParams(
@@ -84,8 +88,8 @@ var FlickrHelpers = (function () {
             var curWidth =  parseInt(current.width);
             var curHeight = parseInt(current.height);
 
-            if (self.between(bestSoFar.width, curWidth, maxWidth) &&
-                self.between(bestSoFar.height, curHeight, maxHeight)
+            if (between(bestSoFar.width, curWidth, maxWidth) &&
+                between(bestSoFar.height, curHeight, maxHeight)
             ) {
               bestSoFar = current;
               bestSoFar.width = curWidth;
@@ -104,10 +108,6 @@ var FlickrHelpers = (function () {
       });
 
       return promise;
-    },
-
-    between: function(min, it, max) {
-      return (it > min && it < max);
     },
 
     loadAndShowImage: function (photoId, imageElementSelector, largestSizeDesired, errorHandler) {
