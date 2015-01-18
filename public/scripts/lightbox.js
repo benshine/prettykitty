@@ -31,22 +31,6 @@ var Lightbox = (function () {
   return {
 
     addEventListeners: function (container) {
-      container.getElementById('PreviousButton').addEventListener(
-        'click',
-        function (event) {
-          event.preventDefault();
-          Lightbox.goToPrevious();
-        }
-      );
-
-      container.getElementById('NextButton').addEventListener(
-        'click',
-        function (event) {
-          event.preventDefault();
-          Lightbox.goToNext();
-        }
-      );
-
       BJQ.getBySelector(selectors.MAIN_IMAGE).addEventListener(
         'click',
         function (event) {
@@ -215,14 +199,6 @@ var Lightbox = (function () {
           BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "none");
         });
       }
-    },
-
-    showControls: function () {
-      BJQ.setOpacity(selectors.CONTROLS_CONTAINER, 1);
-    },
-
-    hideControls: function () {
-      BJQ.setOpacity(selectors.CONTROLS_CONTAINER, 0);
     }
   };
 }());
