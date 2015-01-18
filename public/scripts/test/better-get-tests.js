@@ -1,4 +1,4 @@
-/* global console, $, ChainableGet */
+/* global console, $, betterGet */
 
 document.addEventListener("DOMContentLoaded", function() {
   'use strict';
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var URL_THAT_WILL_404 = "http://localhost:5000/non_existent_url";
 
   var logToPage = function (cssClass, msg) {
-    var TEST_OUTPUT_SELECTOR = '[data-test-name=ChainableGet]';
+    var TEST_OUTPUT_SELECTOR = '[data-test-name=BetterGet]';
     $(TEST_OUTPUT_SELECTOR + ' .log').append($("<h2>").addClass(cssClass).text(msg));
     console.log(cssClass + ": " + msg);
   };
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var doTest = function (testName, testFunc) {
     allTests.push(testName);
     console.log("Running test: ", testName);
-    testFunc();
+    testFunc(testName);
   };
 
   var allTestsCompleted = function () {
@@ -46,16 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   };
 
-  doTest("testSuccessFlow", function () {
+  doTest("testSuccessFlow", function (testName) {
     // This tests a successful promise
     var expectationsMet = [ false, false ];
     var checkForSuccess = function () {
       if (expectationsMet[0] && expectationsMet[1]) {
-        handleTestPassed("testSuccessFlow");
+        handleTestPassed(testName);
       }
     };
 
-    new ChainableGet().get(VALID_EXTERNAL_URL)
+    betterGet(VALID_EXTERNAL_URL)
       .then( function () {
         expectationsMet[0] = true;
         checkForSuccess();
@@ -66,25 +66,25 @@ document.addEventListener("DOMContentLoaded", function() {
             checkForSuccess();
           },
           function () {
-            handleTestFailed("testSuccessFlow", "unexpected reject handler called");
+            handleTestFailed(testName, "unexpected reject handler called");
           }
       ).catch(
         function () {
-          handleTestFailed("testSuccessFlow", "unexpected fail handler called");
+          handleTestFailed(testName, "unexpected fail handler called");
         }
       );
     }
   );
 
-  doTest("testMultipleSuccesses", function () {
+  doTest("testMultipleSuccesses", function (testName) {
     var expectationsMet = [ false, false, false ];
     var checkForSuccess = function () {
       if (expectationsMet[0] && expectationsMet[1] && expectationsMet[2]) {
-        handleTestPassed("testMultipleSuccesses");
+        handleTestPassed(testName);
       }
     };
 
-    new ChainableGet().get(VALID_EXTERNAL_URL)
+    betterGet(VALID_EXTERNAL_URL)
       .then(function () {
         expectationsMet[0] = true;
         checkForSuccess();
@@ -100,22 +100,21 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
 
-  doTest("testErrorHandling", function () {
-    new ChainableGet().get(URL_THAT_WILL_404)
+  doTest("testErrorHandling", function (testName) {
+    betterGet(URL_THAT_WILL_404)
       .catch(
-        function () { handleTestPassed("testErrorHandlingWithFail", "received expected failure call"); }
+        function () { handleTestPassed(testName, "received expected failure call"); }
     ).catch(
-      function () { handleTestFailed("testErrorHandlingWithFail", "received unexpected success call"); }
+      function () { handleTestFailed(testName, "received unexpected success call"); }
     );
   });
 
 
-  doTest("testErrorHandlingWithThen", function () {
-    new ChainableGet()
-      .get(URL_THAT_WILL_404)
+  doTest("testErrorHandlingWithThen", function (testName) {
+    betterGet(URL_THAT_WILL_404)
       .then(
-        function () { handleTestFailed("testErrorHandlingWithThen", "received unexpected onResolved call"); },
-        function () { handleTestPassed("testErrorHandlingWithThen", "received expected onRejected call"); }
+        function () { handleTestFailed(testName, "received unexpected onResolved call"); },
+        function () { handleTestPassed(testName, "received expected onRejected call"); }
       );
   });
 

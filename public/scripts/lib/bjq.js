@@ -1,4 +1,4 @@
-/* global ChainableGet */
+/* global betterGet */
 
 /*
  *  BJQ: Benji's jQuery replacement
@@ -18,11 +18,8 @@ var BJQ = (function () {
 
     // This is an incredibly simple get handler that is not meant to handle
     // all situations. Just enough for the current application.
-    // It returns a ChainableGet, which has three chainable methods:
-    // `success`, `fail`, and `then`
-    // See flickr-helpers.js for usage examples
     get: function (url) {
-      return new ChainableGet().get(url);
+      return betterGet(url);
     },
 
     encodeUrlParams:   function (params) {

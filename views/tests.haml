@@ -14,7 +14,7 @@
     %script{src: "scripts/lib/polyfill-object-assign.js"}
     %script{src: "scripts/lib/polyfill-array-find.js"}
     %script{src: "scripts/lib/bjq.js"}
-    %script{src: "scripts/lib/chainable-get.js"}
+    %script{src: "scripts/lib/better-get.js"}
     %script{src: "scripts/lib/flickr-helpers.js"}
     %script{src: "scripts/lightbox.js"}
   %body
@@ -22,8 +22,8 @@
     .container
       %h1 Pretty Kitty, Pretty Tests
 
-      %h2 Chainable Get Tests
-      .test{'data-test-name' => 'ChainableGet'}
+      %h2 Better Get Tests
+      .test{'data-test-name' => 'BetterGet'}
         .log
 
       %h2 FlickrHelpers Test
@@ -31,5 +31,5 @@
         .log
 
 
-  %script{src: "scripts/test/chainable-get-tests.js"}
-  %script{src: "scripts/test/flickr-helpers-tests.js"}
+  %script{src: "scripts/test/better-get-tests.js"}
+  -#%script{src: "scripts/test/flickr-helpers-tests.js"}
