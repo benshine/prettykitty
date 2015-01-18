@@ -55,12 +55,23 @@ var Lightbox = (function () {
         }
       );
 
+      BJQ.getBySelector(selectors.BACKDROP).addEventListener(
+        'click',
+        function (event) {
+          event.preventDefault();
+          Lightbox.switchToState(states.GALLERY_OVERVIEW);
+        }
+      );
+
       container.addEventListener('keyup', function (event) {
         if (event.keyCode === 39) { // right arrow
+          event.preventDefault();
           Lightbox.goToNext();
         } else if (event.keyCode === 37) { // left arrow
+          event.preventDefault();
           Lightbox.goToPrevious();
         } else if (event.keyCode === 27) { // escape key
+          event.preventDefault();
           Lightbox.switchToState(states.GALLERY_OVERVIEW);
         }
       });
@@ -194,15 +205,15 @@ var Lightbox = (function () {
       if (focused) {
         BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 1);
         BJQ.setOpacity(selectors.BACKDROP, 0.8);
-        // TODO: timing
         BJQ.setDisplay(selectors.BACKDROP, "block");
         BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "block");
       } else {
         BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 0);
         BJQ.setOpacity(selectors.BACKDROP, 0);
-        // TODO: timing
-        BJQ.setDisplay(selectors.BACKDROP, "none");
-        BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "none");
+        BJQ.waitThen(transitionDuration, function () {
+          BJQ.setDisplay(selectors.BACKDROP, "none");
+          BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "none");
+        });
       }
     },
 

@@ -77,6 +77,12 @@ var BJQ = (function () {
 
     setDisplay: function(selector, value) {
       document.querySelector(selector).style.display = value;
+    },
+
+    waitThen: function (delay, fn) {
+      // Wait delay milliseconds, then run specified function.
+      // I just like this API signature better than setTimeout :)
+      setTimeout(fn, delay);
     }
   };
 }());
