@@ -228,7 +228,7 @@ var Lightbox = (function () {
     },
 
     handleThumbnailClick: function (event) {
-      current = BJQ.getData(event.target, "index");
+      current = parseInt(BJQ.getData(event.target, "index"));
       this.switchToState(states.FOCUSED_ON_PHOTO);
       this.transitionToCurrentPhoto();
     },
