@@ -18,6 +18,14 @@ is my $.get replacement. Neither of those accept all the parameters and options 
 and they haven't been tested outside of Chrome, but they do the basic things I need for this
 application.
 
+Most of the application code is in
+[lightbox.js](https://github.com/benshine/prettykitty/blob/master/public/scripts/lightbox.js)
+
+If you want to use your own gallery, edit the gallery id in
+[main.js](https://github.com/benshine/prettykitty/blob/master/public/scripts/main.js).
+To get the gallery id for your gallery, use the
+[Flickr API explorer](https://www.flickr.com/services/api/explore/flickr.urls.lookupGallery)
+
 ### To run:
     bundle install
     foreman start

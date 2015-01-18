@@ -1,4 +1,4 @@
-/* global Lightbox */
+/* global Lightbox, About */
 
 document.addEventListener("DOMContentLoaded", function() {
   'use strict';
