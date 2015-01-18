@@ -100,3 +100,9 @@ a:after {
 .Thumbnail {
   margin: 10px;
 }
+
+/* Offscreen image (for preloading) */
+
+#OffscreenImage {
+  display: none;
+}

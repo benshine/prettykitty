@@ -5,7 +5,9 @@ var Lightbox = (function () {
 
   var galleryData;
   var current = 0;
-  var transitionDuration = 500; // ms duration of opacity transition of main image
+  var TRANSITION_DURATION_MS = 500; // duration of opacity transition of main image. Must match styles.css!
+  var THUMBNAIL_SIZE = 150;
+  var MAX_GALLERY_SIZE = 30; // if this were a real app, I'd do some paging for large galleries, but...
 
   var states = {
     LOADING_GALLERY_DATA: "LOADING_GALLERY_DATA",
@@ -15,7 +17,6 @@ var Lightbox = (function () {
 
   var currentState = states.LOADING_GALLERY_DATA;
 
-  var THUMBNAIL_SIZE = 150;
 
   var selectors = {
     MAIN_IMAGE: '.LightBox-mainImage',
@@ -25,7 +26,8 @@ var Lightbox = (function () {
     MAIN_IMAGE_AND_INFO: '.LightBox',
     BACKDROP: '.Lightbox-backdrop',
     CONTROLS_CONTAINER: '.controls-container',
-    THUMBNAILS: '.Thumbnails'
+    THUMBNAILS: '.Thumbnails',
+    OFFSCREEN_IMAGE: '#OffscreenImage'
   };
 
   return {
@@ -63,6 +65,9 @@ var Lightbox = (function () {
 
     setGalleryData: function (photos) {
       galleryData = photos;
+      // Brutally cap the gallery size! Beyond a certain size my UI will start to
+      // look bad. For a real app, I'd handle paging.
+      galleryData.photo = galleryData.photo.slice(0, MAX_GALLERY_SIZE);
       current = 0;
     },
 
@@ -113,7 +118,7 @@ var Lightbox = (function () {
             lightbox.style.opacity = 1;
           });
 
-      }, transitionDuration);
+      }, TRANSITION_DURATION_MS);
     },
 
     showPhotoInLightbox: function (photoId) {
@@ -124,12 +129,15 @@ var Lightbox = (function () {
       );
       // We need to redo these calculations every time we load an image,
       // because the container size may have changed
+      return FlickrHelpers.loadAndShowImage(photoId, selectors.MAIN_IMAGE, this.maxImageDimensions());
+    },
+
+    maxImageDimensions: function () {
       var containerDimensions = BJQ.getDimensions('.container');
-      var largestSizeDesired = {
+      return {
         width: containerDimensions.width - 50,
         height: containerDimensions.height - BJQ.getBySelector('.ImageInfo').clientHeight
       };
-      return FlickrHelpers.loadAndShowImage(photoId, selectors.MAIN_IMAGE, largestSizeDesired);
     },
 
     loadAndShowGallery: function (galleryId) {
@@ -137,21 +145,21 @@ var Lightbox = (function () {
       self.switchToState(states.LOADING_GALLERY_DATA);
       FlickrHelpers.getGallery(galleryId)
         .then(function (responseText) {
-          var galleryInfo = JSON.parse(responseText);
-          self.setGalleryData(galleryInfo.photos);
+          self.setGalleryData(JSON.parse(responseText).photos);
           self.showCurrentPhotoInLightbox();
           self.switchToState(states.GALLERY_OVERVIEW);
-          self.makeThumbnails(galleryInfo);
+          self.makeThumbnails();
+          self.preloadImages();
         })
       ;
     },
 
-    makeThumbnails: function (galleryInfo) {
+    makeThumbnails: function () {
       var thumbnails = BJQ.getBySelector('.Thumbnails');
       var self = this;
-      galleryInfo.photos.photo.forEach( function (photo, index) {
+      galleryData.photo.forEach( function (photo, index) {
         var image = document.createElement("img");
-        image.setAttribute('src', photo.url_q);
+        image.setAttribute('src', photo.url_q); // TODO: PUT THIS BACK!!!
         image.setAttribute('width', THUMBNAIL_SIZE);
         image.setAttribute('height', THUMBNAIL_SIZE);
         image.setAttribute('data-photo-id', photo.id);
@@ -159,6 +167,18 @@ var Lightbox = (function () {
         image.className = "Thumbnail";
         image.addEventListener('click', self.handleThumbnailClick.bind(self));
         thumbnails.appendChild(image);
+      });
+    },
+
+    preloadImages: function () {
+      // TODO: It would be nice to skip the preload if we're on mobile
+      var maxDimensions = this.maxImageDimensions();
+      galleryData.photo.forEach( function (photo, index) {
+        setTimeout( function () {
+          FlickrHelpers.loadAndShowImage(photo.id, selectors.OFFSCREEN_IMAGE, maxDimensions);
+        }, 200 * index);
+        // this timeout prevents the early loads from being canceled when
+        // we re-assign the offscreen image's source to the next item.
       });
     },
 
@@ -194,7 +214,7 @@ var Lightbox = (function () {
       } else {
         BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 0);
         BJQ.setOpacity(selectors.BACKDROP, 0);
-        BJQ.waitThen(transitionDuration, function () {
+        BJQ.waitThen(TRANSITION_DURATION_MS, function () {
           BJQ.setDisplay(selectors.BACKDROP, "none");
           BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "none");
         });

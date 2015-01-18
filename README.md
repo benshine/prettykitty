@@ -25,7 +25,6 @@ application.
 
 ### Stuff I'd like to do
 - better indicators for loading and error states
-- preload all images in the gallery
 - ability to set a different gallery
 - look better on mobile
 - concatenate all the js files together so I don't have to worry about load order
