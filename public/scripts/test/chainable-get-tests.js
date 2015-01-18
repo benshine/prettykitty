@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
   doTest("testSuccessFlow", function () {
-    // This tests both .success and .then
+    // This tests a successful promise
     var expectationsMet = [ false, false ];
     var checkForSuccess = function () {
       if (expectationsMet[0] && expectationsMet[1]) {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     new ChainableGet().get(VALID_EXTERNAL_URL)
-      .success( function () {
+      .then( function () {
         expectationsMet[0] = true;
         checkForSuccess();
       })
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
           function () {
             handleTestFailed("testSuccessFlow", "unexpected reject handler called");
           }
-      ).fail(
+      ).catch(
         function () {
           handleTestFailed("testSuccessFlow", "unexpected fail handler called");
         }
@@ -85,26 +85,26 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     new ChainableGet().get(VALID_EXTERNAL_URL)
-      .success(function () {
+      .then(function () {
         expectationsMet[0] = true;
         checkForSuccess();
       })
-      .success(function () {
+      .then(function () {
         expectationsMet[1] = true;
         checkForSuccess();
       })
-      .success(function () {
+      .then(function () {
         expectationsMet[2] = true;
         checkForSuccess();
       });
   });
 
 
-  doTest("testErrorHandlingWithFail", function () {
+  doTest("testErrorHandling", function () {
     new ChainableGet().get(URL_THAT_WILL_404)
-      .fail(
+      .catch(
         function () { handleTestPassed("testErrorHandlingWithFail", "received expected failure call"); }
-    ).success(
+    ).catch(
       function () { handleTestFailed("testErrorHandlingWithFail", "received unexpected success call"); }
     );
   });

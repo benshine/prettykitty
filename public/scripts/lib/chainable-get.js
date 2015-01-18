@@ -6,7 +6,6 @@ function ChainableGet() {
   var XHR_COMPLETE = 4;
   var HTTP_RESPONSE_OK = 200;
 
-
   this.get = function (url) {
     this.url = url;
 
