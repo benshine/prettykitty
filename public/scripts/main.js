@@ -8,5 +8,5 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 
   Lightbox.addEventListeners(document);
-  Lightbox.loadAndShowGallery(galleries.cats2);
+  Lightbox.loadAndShowGallery(galleries.kittens);
 });

@@ -53,7 +53,6 @@ var Lightbox = (function () {
       );
 
       container.addEventListener('keyup', function (event) {
-        console.log("got keyup event", event);
         if (event.keyIdentifier === "Right") {
           Lightbox.goToNext();
         } else if (event.keyIdentifier === "Left") {
@@ -179,22 +178,31 @@ var Lightbox = (function () {
       }
 
       if (newState === GALLERY_OVERVIEW) {
-        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 0);
-        BJQ.setOpacity(selectors.BACKDROP, 0);
-        // TODO: wiat until the animation finishes
-        BJQ.setDisplay(selectors.BACKDROP, "none");
-        currentState = GALLERY_OVERVIEW;
+        this.toggleFocusMode(false);
       } else if (newState === FOCUSED_ON_PHOTO) {
-        this.showControls();
-        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 1);
-        BJQ.setOpacity(selectors.BACKDROP, 1);
-        BJQ.setDisplay(selectors.BACKDROP, "block");
-        currentState = FOCUSED_ON_PHOTO;
+        this.toggleFocusMode(true);
       } else if (newState === LOADING_GALLERY_DATA) {
-        currentState = LOADING_GALLERY_DATA;
-        this.hideControls();
+        this.toggleFocusMode(false);
       } else {
         throw new Error("transitioned to unknown state: ", newState);
+      }
+
+      currentState = newState;
+    },
+
+    toggleFocusMode: function (focused) {
+      if (focused) {
+        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 1);
+        BJQ.setOpacity(selectors.BACKDROP, 0.8);
+        // TODO: timing
+        BJQ.setDisplay(selectors.BACKDROP, "block");
+        BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "block");
+      } else {
+        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 0);
+        BJQ.setOpacity(selectors.BACKDROP, 0);
+        // TODO: timing
+        BJQ.setDisplay(selectors.BACKDROP, "none");
+        BJQ.setDisplay(selectors.MAIN_IMAGE_AND_INFO, "none");
       }
     },
 
