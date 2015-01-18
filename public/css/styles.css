@@ -49,6 +49,7 @@ a:after {
 
 .ImageInfo-owner {
   line-height: 2.5rem;
+  display: none;
 }
 
 /*  Help and credits */
