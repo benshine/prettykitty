@@ -151,12 +151,13 @@ var Lightbox = (function () {
     makeThumbnails: function (galleryInfo) {
       var thumbnails = BJQ.getBySelector('.Thumbnails');
       var self = this;
-      galleryInfo.photos.photo.forEach( function (photo) {
+      galleryInfo.photos.photo.forEach( function (photo, index) {
         var image = document.createElement("img");
         image.setAttribute('src', photo.url_q);
         image.setAttribute('width', THUMBNAIL_SIZE);
         image.setAttribute('height', THUMBNAIL_SIZE);
         image.setAttribute('data-photo-id', photo.id);
+        image.setAttribute('data-index', index);
         image.className = "Thumbnail";
         image.addEventListener('click', self.handleThumbnailClick.bind(self));
         thumbnails.appendChild(image);
@@ -164,11 +165,9 @@ var Lightbox = (function () {
     },
 
     handleThumbnailClick: function (event) {
-      console.log("got click: ", event);
-      var photoId = BJQ.getData(event.target, "photo-id");
-      console.log("got click on thumbnail : ", photoId);
-      // TODO: switch to the photo clicked on, not just any photo
+      current = BJQ.getData(event.target, "index");
       this.switchToState(FOCUSED_ON_PHOTO);
+      this.transitionToCurrentPhoto();
     },
 
     switchToState: function (newState) {
