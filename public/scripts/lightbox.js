@@ -7,11 +7,12 @@ var Lightbox = (function () {
   var current = 0;
   var transitionDuration = 500; // ms duration of opacity transition of main image
 
-  var LOADING = "LOADING";
-  var LOAD_COMPLETED = "LOAD_COMPLETED";
-  var currentState = LOADING;
+  var LOADING_GALLERY_DATA = "LOADING_GALLERY_DATA";
+  var GALLERY_OVERVIEW = "GALLERY_OVERVIEW";
+  var FOCUSED_ON_PHOTO = "FOCUSED_ON_PHOTO";
+  var currentState = LOADING_GALLERY_DATA;
 
-  var THUMBNAIL_SIZE = 75;
+  var THUMBNAIL_SIZE = 150;
 
   var selectors = {
     MAIN_IMAGE: '.LightBox-mainImage',
@@ -19,7 +20,9 @@ var Lightbox = (function () {
     MAIN_IMAGE_TITLE: '.LightBox .ImageInfo-title',
     MAIN_IMAGE_URL: '.LightBox .ImageInfo-url',
     MAIN_IMAGE_AND_INFO: '.LightBox',
-    CONTROLS_CONTAINER: '.controls-container'
+    BACKDROP: '.Lightbox-backdrop',
+    CONTROLS_CONTAINER: '.controls-container',
+    THUMBNAILS: '.Thumbnails'
   };
 
   return {
@@ -44,17 +47,19 @@ var Lightbox = (function () {
       BJQ.getBySelector(selectors.MAIN_IMAGE).addEventListener(
         'click',
         function (event) {
-          console.log("yep");
           event.preventDefault();
           Lightbox.goToNext();
         }
       );
 
       container.addEventListener('keyup', function (event) {
+        console.log("got keyup event", event);
         if (event.keyIdentifier === "Right") {
           Lightbox.goToNext();
         } else if (event.keyIdentifier === "Left") {
           Lightbox.goToPrevious();
+        } else if (event.keyCode === 27) { // escape key
+          Lightbox.switchToState(GALLERY_OVERVIEW);
         }
       });
     },
@@ -132,13 +137,13 @@ var Lightbox = (function () {
 
     loadAndShowGallery: function (galleryId) {
       var self = this;
-      self.switchToState(LOADING);
+      self.switchToState(LOADING_GALLERY_DATA);
       FlickrHelpers.getGallery(galleryId)
         .success(function (responseText) {
           var galleryInfo = JSON.parse(responseText);
           self.setGalleryData(galleryInfo.photos);
           self.showCurrentPhotoInLightbox();
-          self.switchToState(LOAD_COMPLETED);
+          self.switchToState(GALLERY_OVERVIEW);
           self.makeThumbnails(galleryInfo);
         })
       ;
@@ -146,27 +151,47 @@ var Lightbox = (function () {
 
     makeThumbnails: function (galleryInfo) {
       var thumbnails = BJQ.getBySelector('.Thumbnails');
+      var self = this;
       galleryInfo.photos.photo.forEach( function (photo) {
         var image = document.createElement("img");
         image.setAttribute('src', photo.url_q);
-        image.setAttribute('width', 75);
-        image.setAttribute('height', 75);
+        image.setAttribute('width', THUMBNAIL_SIZE);
+        image.setAttribute('height', THUMBNAIL_SIZE);
         image.setAttribute('data-photo-id', photo.id);
+        image.className = "Thumbnail";
+        image.addEventListener('click', self.handleThumbnailClick.bind(self));
         thumbnails.appendChild(image);
       });
     },
 
+    handleThumbnailClick: function (event) {
+      console.log("got click: ", event);
+      var photoId = BJQ.getData(event.target, "photo-id");
+      console.log("got click on thumbnail : ", photoId);
+      // TODO: switch to the photo clicked on, not just any photo
+      this.switchToState(FOCUSED_ON_PHOTO);
+    },
+
     switchToState: function (newState) {
+      console.log("switching to state: ", newState, " from ", currentState);
       if (currentState === newState) {
         return;
       }
 
-      if (newState === LOAD_COMPLETED) {
+      if (newState === GALLERY_OVERVIEW) {
+        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 0);
+        BJQ.setOpacity(selectors.BACKDROP, 0);
+        // TODO: wiat until the animation finishes
+        BJQ.setDisplay(selectors.BACKDROP, "none");
+        currentState = GALLERY_OVERVIEW;
+      } else if (newState === FOCUSED_ON_PHOTO) {
         this.showControls();
-        currentState = LOAD_COMPLETED;
-        document.querySelector(selectors.MAIN_IMAGE_AND_INFO).style.opacity = 1;
-      } else if (newState === LOADING) {
-        currentState = LOADING;
+        BJQ.setOpacity(selectors.MAIN_IMAGE_AND_INFO, 1);
+        BJQ.setOpacity(selectors.BACKDROP, 1);
+        BJQ.setDisplay(selectors.BACKDROP, "block");
+        currentState = FOCUSED_ON_PHOTO;
+      } else if (newState === LOADING_GALLERY_DATA) {
+        currentState = LOADING_GALLERY_DATA;
         this.hideControls();
       } else {
         throw new Error("transitioned to unknown state: ", newState);
@@ -174,11 +199,11 @@ var Lightbox = (function () {
     },
 
     showControls: function () {
-      document.querySelector(selectors.CONTROLS_CONTAINER).style.opacity = 1;
+      BJQ.setOpacity(selectors.CONTROLS_CONTAINER, 1);
     },
 
     hideControls: function () {
-      document.querySelector(selectors.CONTROLS_CONTAINER).style.opacity = 0;
+      BJQ.setOpacity(selectors.CONTROLS_CONTAINER, 0);
     }
   };
 }());

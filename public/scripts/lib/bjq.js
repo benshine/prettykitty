@@ -65,6 +65,18 @@ var BJQ = (function () {
         width: element.clientWidth,
         height: element.clientHeight
       };
+    },
+
+    getData: function (element, dataName) {
+      return element.getAttribute("data-" + dataName);
+    },
+
+    setOpacity: function(selector, opacity) {
+      document.querySelector(selector).style.opacity = opacity;
+    },
+
+    setDisplay: function(selector, value) {
+      document.querySelector(selector).style.display = value;
     }
   };
 }());
