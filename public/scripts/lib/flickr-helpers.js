@@ -84,9 +84,6 @@ var FlickrHelpers = (function () {
             var curWidth =  parseInt(current.width);
             var curHeight = parseInt(current.height);
 
-            //console.log("bestSoFar width, height", bestSoFar.width, bestSoFar.height);
-            //console.log("current width, height", current.width, current.height);
-
             if (self.between(bestSoFar.width, curWidth, maxWidth) &&
                 self.between(bestSoFar.height, curHeight, maxHeight)
             ) {
