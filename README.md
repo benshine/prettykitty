@@ -3,7 +3,7 @@
 
 I'm working on this as an exercise in life without jquery or css frameworks.
 
-The live app (still a work in progress!) is deployed to [heroku](https://prettykitty.herokuapp.com/).
+The live app is deployed to [heroku](https://prettykitty.herokuapp.com/).
 
 ### Ingredients
 
@@ -13,7 +13,7 @@ The live app (still a work in progress!) is deployed to [heroku](https://prettyk
 
 [BJQ.js ("Benji's jQuery")](https://github.com/benshine/prettykitty/blob/master/public/scripts/lib/bjq.js)
 is my miniature jquery replacement, and
-[ChainableGet](https://github.com/benshine/prettykitty/blob/master/public/scripts/lib/better-get.js)
+[betterGet](https://github.com/benshine/prettykitty/blob/master/public/scripts/lib/better-get.js)
 is my $.get replacement. Neither of those accept all the parameters and options that jQuery function do,
 and they haven't been tested outside of Chrome, but they do the basic things I need for this
 application.
@@ -30,7 +30,6 @@ application.
 - look better on mobile
 - concatenate all the js files together so I don't have to worry about load order
 - write my own versions of the es6 polyfill functions for Array.prototype.find and Object.assign
-- convert ChainableGet to use Object.create rather than being a constructor
 
 ### Stuff I'm deliberately not going to do, for now:
 
